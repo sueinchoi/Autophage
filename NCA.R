@@ -17,7 +17,8 @@ names(Clean_raw) <- names(Clean_raw)  %>%
 
 Clean_raw <- Clean_raw %>%
   mutate_at(vars(ID, SPECIES : FORMULATION), as.factor) %>%
-  mutate(SEX = factor(SEX, levels = c(1, 2), labels = c("M", "F")), ROUTE = factor(ROUTE, levels = c(1, 2), labels = c('PO', 'IV')))
+  mutate(SEX = factor(SEX, levels = c(1, 2), labels = c("M", "F")), ROUTE = factor(ROUTE, levels = c(1, 2), labels = c('PO', 'IV'))) %>%
+  filter(FORMULATION == 1)
 
 
 ## Analysis per species
@@ -32,7 +33,6 @@ Clean_animal <- map(1:4, function(i){
 # Number of animals
 Clean_animal %>%
   map(function(x){x %>% filter(TIME == 0, MDV == 1) %>% group_by(DOSE, ROUTE) %>% summarise(n = n())})
-
 
 # NCA & DOSE Linearity
 
