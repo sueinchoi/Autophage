@@ -1,0 +1,107 @@
+$PROB Mouse_liver_2comp
+$INPUT ID TIME AMT DV MDV CMT ADDL II SPECIES SEX MULTIPLE DOSE ROUTE FORMULATION 
+$DATA  C:\Users\admin\Documents\GitHub\Autophage\PKTK_dataset_201015.csv IGNORE=@ ACCEPT=(SPECIES.EQ.1)
+
+$SUBROUTINE ADVAN6 TOL=3
+
+$MODEL NCOMP=4
+ COMP(DEPOT, DEFDOSE)
+ COMP(LIV)
+ COMP(CENT, DEFOBS)
+ COMP(PERI)
+
+$PK
+
+ ;---- PK FIXED EFFECT ---- 
+ TVCL = THETA(1)
+ TVV2 = THETA(2)
+ TVV3 = THETA(3)
+ TVV4 = THETA(4)
+ TVQ  = THETA(5)
+ TVKA = THETA(6)
+ TVCLint = THETA(7)
+ TVF1 = THETA(8)
+ TVQH = THETA(9)
+ 
+;---- PK RANDOM EFFECT ----
+
+ CL   = TVCL * EXP(ETA(1))
+ V2   = TVV2 * EXP(ETA(2))
+ V3   = TVV3 * EXP(ETA(3))
+ V4   = TVV4 * EXP(ETA(4))
+ Q    = TVQ  * EXP(ETA(5))
+ KA   = TVKA * EXP(ETA(6))
+ CLint = TVCLint * EXP(ETA(7))
+ F1 = TVF1 * EXP(ETA(8))
+ QH = TVQH * EXP(ETA(9))
+ 
+;---- PK PARAMETER RELATIONSHIP ----
+ S2   = V2 
+ S3   = V3
+ K34  = Q/V3
+ k43  = Q/V4
+
+ KE   = CL/V3
+
+$DES
+ CPH = A(2)/V2
+ CP = A(3)/V3
+ DADT(1) = - KA * F1 * A(1)
+ DADT(2) = KA * F1 * A(1) - QH * CPH - CLint * CPH + QH * CP
+ DADT(3) = QH * CPH - K34*A(3) + K43*A(4) - QH * CP
+ DADT(4) = K34*A(3) - K43*A(4)
+
+
+$ERROR
+
+ IF (CMT.EQ.2) THEN
+ IPRED  = A(2)/V2
+ W      = SQRT(THETA(10)**2 + THETA(11)**2 * IPRED**2)
+ IRES   = DV - IPRED
+ IWRES  = IRES / W
+ Y      = IPRED + W * EPS(1)
+ ENDIF 
+ 
+ IF (CMT.EQ.3) THEN
+ IPRED  = A(3)/V3
+ W      = SQRT(THETA(12)**2 + THETA(13)**2 * IPRED**2)
+ IRES   = DV - IPRED
+ IWRES  = IRES / W
+ Y      = IPRED + W * EPS(2)
+ ENDIF
+
+$THETA
+
+ (0, 500)  ; CL (L/h/kg) - mouse : 0.03kg 
+ 0.05 FIX  ; Liver volume (L/kg) - mouse liver : 0.0015kg, mouse : 0.03 kg
+ (0, 1000)  ; VC (L/kg)
+ (0, 5000) ; VP (L/kg)
+ (0, 500) ; Q (L/h/kr)
+ (0, 3) ; KA (/h)
+ 308.1 FIX
+ (0, 0.1); F1
+ 0.108 FIX
+ 
+ 0.0001 FIX
+ 0.5
+ 
+ 0.0001 FIX
+ 0.5
+ 
+$OMEGA
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 
+$SIGMA
+ 1 FIX
+ 1 FIX
+$ESTIMATION NOABORT MAXEVAL=9999 METHOD=1 PRINT=10 SIGDIGITS=3
+ 
+$TABLE ID TIME AMT CMT DV MDV IPRED CWRES IWRES  ONEHEADER NOPRINT  FILE = sdtab001
