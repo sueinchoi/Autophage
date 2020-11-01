@@ -71,7 +71,7 @@ Liv_NCA_PO_summary <- Liv_NCA_PO %>%
   full_join(. %>% summarise_at(vars(CMAX:VZFO), mean) %>% mutate(STAT='mean'))
   full_join(Liv_NCA_PO %>% summarise_at(vars(CMAX:VZFO), sd) %>% mutate(STAT='sd'))
 
-Liv_NCA_PO %>%
+Liv_NCA_PO_summary %>%
   mutate(BIOIV = AUCLST/Liv_NCA_summary$AUCLST, BIO = mean(Plasma_NCA_PO$AUCLST)/Liv_NCA_PO[4,2]) %>% 
   write.csv('Data_Exploration/Mouse/NCA/Liver_PO.csv', row.names = F, na = "")
 
