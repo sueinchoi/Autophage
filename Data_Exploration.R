@@ -1,6 +1,6 @@
 library(tidyverse)
-library(PKPDmisc)
 library(plotly)
+if(!require(PKPDmisc)) install.packages('PKPDmisc'); library(PKPDmisc)
 if(!require(readxl)) install.packages('readxl'); library(readxl)
 if(!require(NonCompart)) install.packages('NonCompart'); library(NonCompart)
 if(!require(textclean)) install.packages('textclean'); library(textclean)
@@ -27,6 +27,56 @@ Clean_animal <- map(1:4, function(i){
 Clean_animal %>%
   map(function(x){x %>% filter(TIME == 0, MDV == 1) %>% group_by(DOSE, ROUTE) %>% summarise(n = n())})
 
+Liv_NCA <- Clean_animal[[1]] %>%
+  filter(MDV == 0, LIV == 1, ROUTE == 'IV') %>%
+  as.data.frame() %>%
+  mutate(DOSE = as.numeric(as.character(DOSE))) %>%
+  tblNCA(key = c("ID", "DOSE", "SEX", "MULTIPLE", "ROUTE", "FORMULATION"), colTime = "TIME", colConc = "DV", dose = 10, adm = "Bolus", dur = 0, concUnit = 'ng/mL', doseUnit = "mg", timeUnit = "h", down = "Linear", R2ADJ = -0.9) %>% 
+  select(ID, DOSE, SEX, MULTIPLE, ROUTE, FORMULATION, CMAX, AUCLST, TMAX, LAMZHL, CLO, VZO) %>% 
+  full_join
+
+Liv_NCA_summary <- Liv_NCA %>%
+  summarise_at(vars(CMAX:VZO), mean) %>%
+  mutate(STAT = 'mean') %>% 
+  full_join(Liv_NCA %>% summarise_at(vars(CMAX:VZO), sd) %>% mutate(STAT='sd')) %>%
+  full_join(Liv_NCA)
+
+Plasma_NCA <- Clean_animal[[1]] %>%
+  filter(MDV == 0, LIV == 0, ROUTE == 'IV') %>%
+  as.data.frame() %>%
+  mutate(DOSE = as.numeric(as.character(DOSE))) %>%
+  tblNCA(key = c("ID", "DOSE", "SEX", "MULTIPLE", "ROUTE", "FORMULATION"), colTime = "TIME", colConc = "DV", dose = 10, adm = "Bolus", dur = 0, concUnit = 'ng/mL', doseUnit = "mg", timeUnit = "h", down = "Linear", R2ADJ = -0.9) %>% 
+  select(ID, DOSE, SEX, MULTIPLE, ROUTE, FORMULATION, CMAX, AUCLST, TMAX, LAMZHL, CLO, VZO)
+
+Liv_NCA_summary %>%
+  mutate(Ktp = Liv_NCA_summary[1,2]/mean(Plasma_NCA$AUCLST)) %>% 
+  write.csv('Data_Exploration/Mouse/NCA/Liver.csv', row.names = F, na = "")
+
+write.csv(Liv_NCA_summary, 'Data_Exploration/Mouse/NCA/Liver.csv', row.names = F, na = "")
+
+Plasma_NCA_PO <- Clean_animal[[1]] %>%
+  filter(MDV == 0, LIV == 0, ROUTE == 'PO', DOSE == 10) %>%
+  as.data.frame() %>%
+  mutate(DOSE = as.numeric(as.character(DOSE))) %>%
+  tblNCA(key = c("ID", "DOSE", "SEX", "MULTIPLE", "ROUTE", "FORMULATION"), colTime = "TIME", colConc = "DV", dose = 10, adm = "Extravascular", dur = 0, concUnit = 'ng/mL', doseUnit = "mg", timeUnit = "h", down = "Linear", R2ADJ = -0.9) %>% 
+  select(ID, DOSE, SEX, MULTIPLE, ROUTE, FORMULATION, CMAX, AUCLST, TMAX, LAMZHL, CLFO, VZFO)
+
+Liv_NCA_PO <- Clean_animal[[1]] %>%
+  filter(MDV == 0, LIV == 1, ROUTE == 'PO') %>%
+  as.data.frame() %>%
+  mutate(DOSE = as.numeric(as.character(DOSE))) %>%
+  tblNCA(key = c("ID", "DOSE", "SEX", "MULTIPLE", "ROUTE", "FORMULATION"), colTime = "TIME", colConc = "DV", dose = 10, adm = "Extravascular", dur = 0, concUnit = 'ng/mL', doseUnit = "mg", timeUnit = "h", down = "Linear", R2ADJ = -0.9) %>% 
+  select(ID, DOSE, SEX, MULTIPLE, ROUTE, FORMULATION, CMAX, AUCLST, TMAX, LAMZHL, CLFO, VZFO) %>%
+  full_join(. %>% summarise_at(vars(CMAX:VZFO), mean) %>% mutate(STAT='mean'))
+
+Liv_NCA_PO_summary <- Liv_NCA_PO %>% 
+  full_join(. %>% summarise_at(vars(CMAX:VZFO), mean) %>% mutate(STAT='mean'))
+  full_join(Liv_NCA_PO %>% summarise_at(vars(CMAX:VZFO), sd) %>% mutate(STAT='sd'))
+
+Liv_NCA_PO_summary %>%
+  mutate(BIOIV = AUCLST/Liv_NCA_summary$AUCLST, BIO = mean(Plasma_NCA_PO$AUCLST)/Liv_NCA_PO[4,2]) %>% 
+  write.csv('Data_Exploration/Mouse/NCA/Liver_PO.csv', row.names = F, na = "")
+
 
 # NCA & DOSE Linearity
 data_NCA <- map(Clean_animal, function(set){
@@ -40,7 +90,8 @@ data_NCA <- map(Clean_animal, function(set){
     filter(MDV == 0, LIV == 0, MULTIPLE == 1, ROUTE == 'IV')  %>%
     as.data.frame() %>%
     mutate(DOSE = as.numeric(as.character(DOSE))) %>%
-    mutate(DV = ifelse(is.na(AMT) & MDV == 1, 0.1, DV))
+    mutate(DV = ifelse(is.na(AMT) & MDV == 1, 0.1, DV)) %>% 
+    
   
   if(length(PO$DV) == 0){
      PO
