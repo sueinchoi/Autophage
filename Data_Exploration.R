@@ -4,7 +4,9 @@ library(plotly)
 if(!require(readxl)) install.packages('readxl'); library(readxl)
 if(!require(NonCompart)) install.packages('NonCompart'); library(NonCompart)
 if(!require(textclean)) install.packages('textclean'); library(textclean)
-
+install.packages('RColorBrewer')
+library(RColorBrewer)
+getwd()
 raw <- read.csv("PKTK_dataset_20201029.csv", stringsAsFactors = F, header = T)
 Clean_raw <- raw %>%
   mutate_at(vars(ID : II), function(x)ifelse(x == '.', NA, x) %>% as.numeric)
@@ -277,11 +279,50 @@ figure_dose <- map(Clean_animal, function(set){
 
 
 ## Plotly analysis
+install.packages('wesanderson')
+library(wesanderson)
+names(wes_palettes)
+
+
+Clean_animal %>%
+  map(function(set){
+    colourCount <- length(unique(set$ID))
+    getPalette = colorRampPalette(brewer.pal(9, "Set1"))
+    p1 <- set %>%
+     filter(MDV == 0, CMT == 2, MULTIPLE == 1, ROUTE == 'PO') %>%
+      ggplot(aes(x = TIME, y = DV, col = as.factor(ID))) +
+      scale_colour_manual(values = wes_palette("GrandBudapest1", n = colourCount)) +
+      geom_line() +
+      geom_point() +
+      facet_wrap(~DOSE, scale = 'free_y') +
+      scale_y_continuous(trans = 'log10')
+    
+    p <- ggplotly(p1)
+    saveWidget(p, paste0(unique(set$name), "_PO_log.html"), selfcontained = F, libdir = "lib")
+  })
 p1 <- Clean_animal[[1]] %>%
-  filter(MDV == 0, CMT == 3) %>%
+  filter(MDV == 0, CMT == 2, MULTIPLE == 1, ROUTE == 'PO', DOSE %in% c(10, 125, 250)) %>%
   ggplot(aes(x = TIME, y = DV, col = as.factor(ID))) +
   geom_line() +
   geom_point() +
-  facet_wrap(~ROUTE, scale = 'free_y')
+  facet_wrap(~DOSE, scale = 'free_y') +
+  scale_y_continuous(trans = 'log10')+
+  scale_color_brewer('ID', palette = "Set1")
 
-ggplotly(p1)
+p <- ggplotly(p1)
+saveWidget(p, 'p1.html', selfcontained = F, libdir = "lib")
+p
+Mean_data <- Clean_animal[[1]] %>%
+    filter(MDV == 0) %>%
+    group_by(DOSE, TIME, CMT, MULTIPLE, ROUTE) %>%
+    summarise(mean = mean(DV, na.rm = T), sd = sd(DV, na.rm = T)) %>%
+    arrange(ROUTE, CMT, MULTIPLE, DOSE, TIME)
+p1<- Mean_data %>%
+  filter(CMT == 2, MULTIPLE == 1) %>%
+  ggplot() +
+  geom_line(aes(x = TIME, y = mean)) +
+  geom_point(aes(x = TIME, y = mean)) +
+  geom_errorbar(aes(x = TIME, ymax = mean + sd, ymin = mean - sd), alpha = 0.5) +
+  theme_bw() +
+  facet_grid(ROUTE ~ DOSE, scale = "free_y") 
+p1
