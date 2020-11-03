@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="ASCII"?>
+<!DOCTYPE nm:output SYSTEM "output.dtd">
+<nm:output
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://namespaces.oreilly.com/xmlnut/address output.xsd"
+xmlns:nm="http://namespaces.oreilly.com/xmlnut/address"
+>
+<nm:start_datetime>2020-11-02T21:23:42.810</nm:start_datetime>
+<nm:control_stream><![CDATA[
+$PROB Simple_2comp, M3 method
+$INPUT ID TIME AMT DV MDV CMT ADDL II SPECIES SEX MULTIPLE DOSE ROUTE FORMULATION TAD BQL LIV RATE TYPE
+$DATA  ..//Monkey_plasma_dual_m3.csv IGNORE=@
+
+$SUBROUTINE ADVAN4 TRANS4
+
+$PK
+;---- FIXED EFFECT DEFINITION ----
+ TVCL = THETA(3)
+ TVV2 = THETA(4)
+ TVV3 = THETA(5)
+ TVQ  = THETA(6)
+ TVKA = THETA(7)
+ TVF  = THETA(8)
+ TVFA = THETA(9)
+ TVD2 = THETA(10)
+ TVALAG = THETA(11)
+;---- RANDOM EFFECT DEFINITION ----
+
+ CL   = TVCL * EXP(ETA(1))
+ V2   = TVV2 * EXP(ETA(2))
+ V3   = TVV3 * EXP(ETA(3))
+ Q    = TVQ  * EXP(ETA(4))
+ KA   = TVKA * EXP(ETA(5))
+ FF   = TVF * EXP(ETA(6))
+ FA   = TVFA * EXP(ETA(7))
+ D2   = TVD2 * EXP(ETA(8))
+ ALAGPO = TVALAG * EXP(ETA(9))
+ S2 = V2
+
+IF(ROUTE.EQ.1) THEN
+ F1 = FF * FA
+ F2 = FF * (1 - FA)
+ ALAG1 = ALAGPO
+ELSE
+ F1 = 1
+ F2 = 1
+ ALAG1 = 0
+ENDIF
+
+$ERROR
+  LLOQ  = 1.0
+  IPRED = F
+  IRES = DV-IPRED
+  W = SQRT(THETA(1)**2 + THETA(2)**2 * IPRED**2)
+  IWRES = IRES/W
+
+  IF(DV .LT. LLOQ) THEN
+    F_FLAG=1
+    Y = PHI((LLOQ-IPRED)/W)
+  ELSE
+    F_FLAG=0
+    Y = IPRED + W*EPS(1)
+  ENDIF
+
+$THETA
+ ; Error
+ 0.0001 FIX
+ 0.5
+
+ ; Distribution
+ (0, 4) ; CL(3) 2.16 L/h/kg
+ (0, 10) ; V2(4) 3.34 L/kg
+ (0, 2) ; V3(5) 0.651 L/kg
+ (0, 2) ; Q (6) 0.12 L/h/kg
+
+ ; Absorption
+ (0, 1) ; KA(7) 0.299 /h
+ (0, 0.1)  ; FF(8) 0.0201
+ (0, 0.5)  ; FA(9) 0.623
+ (0, 5)    ; D2(10)   7.92
+ (0, 5)    ; ALAG2(11) 4.00
+
+$OMEGA
+ 0.1
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+$SIGMA
+ 1 FIX
+
+$ESTIMATION NOABORT MAXEVAL=9999 METHOD=1 NUMERICAL LAPLACIAN SLOW INTER PRINT=10 SIGDIGITS=3
+
+$TABLE ID TIME AMT DV MDV IPRED CWRES IWRES BQL   ONEHEADER NOPRINT FILE = sdtab002
+$TABLE ID CL V2 V3 Q KA F1 DOSE                      ONEHEADER NOPRINT NOAPPEND FILE = patab002
+
+]]></nm:control_stream>
+<nm:nmtran><![CDATA[
+
+ WARNINGS AND ERRORS (IF ANY) FOR PROBLEM    1
+
+ (WARNING  2) NM-TRAN INFERS THAT THE DATA ARE POPULATION.
+]]></nm:nmtran>
+<nm:nonmem nm:version='7.4.1'>
+<nm:license_information><![CDATA[
+License Registered to: Qfitter Inc
+Expiration Date:    14 MAY 2021
+Current Date:        2 NOV 2020
+Days until program expires : 197
+]]></nm:license_information>
+<nm:program_information><![CDATA[
+1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.1
+ ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
+ CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
+ AND ALISON BOECKMANN. IMPLEMENTATION, EFFICIENCY, AND STANDARDIZATION
+ PERFORMED BY NOUS INFOSYSTEMS.
+]]></nm:program_information>
+<nm:problem nm:number='1' nm:subproblem='0' nm:superproblem1='0' nm:iteration1='0' nm:superproblem2='0' nm:iteration2='0'>
+<nm:problem_title>Simple_2comp, M3 method</nm:problem_title>
+<nm:problem_information><![CDATA[
+
+ PROBLEM NO.:         1
+ Simple_2comp, M3 method
+0DATA CHECKOUT RUN:              NO
+ DATA SET LOCATED ON UNIT NO.:    2
+ THIS UNIT TO BE REWOUND:        NO
+ NO. OF DATA RECS IN DATA SET:      206
+ NO. OF DATA ITEMS IN DATA SET:  20
+ ID DATA ITEM IS DATA ITEM NO.:   1
+ DEP VARIABLE IS DATA ITEM NO.:   4
+ MDV DATA ITEM IS DATA ITEM NO.:  5
+0INDICES PASSED TO SUBROUTINE PRED:
+  20   2   3  18   0   8   6   0   0   0   7
+0LABELS FOR DATA ITEMS:
+ ID TIME AMT DV MDV CMT ADDL II SPECIES SEX MULTIPLE DOSE ROUTE FORMULATION TAD BQL LIV RATE TYPE EVID
+0(NONBLANK) LABELS FOR PRED-DEFINED ITEMS:
+ CL V2 V3 Q KA F1 IPRED IWRES
+0FORMAT FOR DATA:
+ (E3.0,2E7.0,E5.0,7E2.0,E5.0,2E2.0,E7.0,2E2.0,E3.0,E2.0,1F2.0)
+
+ TOT. NO. OF OBS RECS:      175
+ TOT. NO. OF INDIVIDUALS:       17
+0LENGTH OF THETA:  11
+0DEFAULT THETA BOUNDARY TEST OMITTED:    NO
+0OMEGA HAS BLOCK FORM:
+  1
+  0  2
+  0  0  3
+  0  0  0  4
+  0  0  0  0  5
+  0  0  0  0  0  6
+  0  0  0  0  0  0  7
+  0  0  0  0  0  0  0  8
+  0  0  0  0  0  0  0  0  9
+0DEFAULT OMEGA BOUNDARY TEST OMITTED:    NO
+0SIGMA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   1
+0DEFAULT SIGMA BOUNDARY TEST OMITTED:    NO
+0INITIAL ESTIMATE OF THETA:
+ LOWER BOUND    INITIAL EST    UPPER BOUND
+  0.1000E-03     0.1000E-03     0.1000E-03
+ -0.1000E+07     0.5000E+00     0.1000E+07
+  0.0000E+00     0.4000E+01     0.1000E+07
+  0.0000E+00     0.1000E+02     0.1000E+07
+  0.0000E+00     0.2000E+01     0.1000E+07
+  0.0000E+00     0.2000E+01     0.1000E+07
+  0.0000E+00     0.1000E+01     0.1000E+07
+  0.0000E+00     0.1000E+00     0.1000E+07
+  0.0000E+00     0.5000E+00     0.1000E+07
+  0.0000E+00     0.5000E+01     0.1000E+07
+  0.0000E+00     0.5000E+01     0.1000E+07
+0INITIAL ESTIMATE OF OMEGA:
+ BLOCK SET NO.   BLOCK                                                                    FIXED
+        1                                                                                   NO
+                  0.1000E+00
+        2                                                                                  YES
+                  0.0000E+00
+        3                                                                                  YES
+                  0.0000E+00
+        4                                                                                  YES
+                  0.0000E+00
+        5                                                                                  YES
+                  0.0000E+00
+        6                                                                                  YES
+                  0.0000E+00
+        7                                                                                  YES
+                  0.0000E+00
+        8                                                                                  YES
+                  0.0000E+00
+        9                                                                                  YES
+                  0.0000E+00
+0INITIAL ESTIMATE OF SIGMA:
+ 0.1000E+01
+0SIGMA CONSTRAINED TO BE THIS INITIAL ESTIMATE
+0TABLES STEP OMITTED:    NO
+ NO. OF TABLES:           2
+ SEED NUMBER (SEED):    11456
+ RANMETHOD:             3U
+ MC SAMPLES (ESAMPLE):    300
+ WRES SQUARE ROOT TYPE (WRESCHOL): EIGENVALUE
+0-- TABLE   1 --
+0RECORDS ONLY:    ALL
+04 COLUMNS APPENDED:    YES
+ PRINTED:                NO
+ HEADER:                YES
+ FILE TO BE FORWARDED:   NO
+ FORMAT:                S1PE11.4
+ LFORMAT:
+ RFORMAT:
+ FIXED_EFFECT_ETAS:
+0USER-CHOSEN ITEMS:
+ ID TIME AMT DV MDV IPRED CWRES IWRES BQL
+0-- TABLE   2 --
+0RECORDS ONLY:    ALL
+04 COLUMNS APPENDED:    NO
+ PRINTED:                NO
+ HEADER:                YES
+ FILE TO BE FORWARDED:   NO
+ FORMAT:                S1PE11.4
+ LFORMAT:
+ RFORMAT:
+ FIXED_EFFECT_ETAS:
+0USER-CHOSEN ITEMS:
+ ID CL V2 V3 Q KA F1 DOSE
+1DOUBLE PRECISION PREDPP VERSION 7.4.1
+
+ TWO COMPARTMENT MODEL WITH FIRST-ORDER ABSORPTION (ADVAN4)
+0MAXIMUM NO. OF BASIC PK PARAMETERS:   5
+0BASIC PK PARAMETERS (AFTER TRANSLATION):
+   BASIC PK PARAMETER NO.  1: ELIMINATION RATE (K)
+   BASIC PK PARAMETER NO.  2: CENTRAL-TO-PERIPH. RATE (K23)
+   BASIC PK PARAMETER NO.  3: PERIPH.-TO-CENTRAL RATE (K32)
+   BASIC PK PARAMETER NO.  5: ABSORPTION RATE (KA)
+ TRANSLATOR WILL CONVERT PARAMETERS
+ CL, V2, Q, V3 TO K, K23, K32 (TRANS4)
+0COMPARTMENT ATTRIBUTES
+ COMPT. NO.   FUNCTION   INITIAL    ON/OFF      DOSE      DEFAULT    DEFAULT
+                         STATUS     ALLOWED    ALLOWED    FOR DOSE   FOR OBS.
+    1         DEPOT        OFF        YES        YES        YES        NO
+    2         CENTRAL      ON         NO         YES        NO         YES
+    3         PERIPH.      ON         NO         YES        NO         NO
+    4         OUTPUT       OFF        YES        NO         NO         NO
+1
+ ADDITIONAL PK PARAMETERS - ASSIGNMENT OF ROWS IN GG
+ COMPT. NO.                             INDICES
+              SCALE      BIOAVAIL.   ZERO-ORDER  ZERO-ORDER  ABSORB
+                         FRACTION    RATE        DURATION    LAG
+    1            *           8           *           *          10
+    2            7           9           *           6           *
+    3            *           *           *           *           *
+    4            *           -           -           -           -
+             - PARAMETER IS NOT ALLOWED FOR THIS MODEL
+             * PARAMETER IS NOT SUPPLIED BY PK SUBROUTINE;
+               WILL DEFAULT TO ONE IF APPLICABLE
+0DATA ITEM INDICES USED BY PRED ARE:
+   EVENT ID DATA ITEM IS DATA ITEM NO.:     20
+   TIME DATA ITEM IS DATA ITEM NO.:          2
+   DOSE AMOUNT DATA ITEM IS DATA ITEM NO.:   3
+   DOSE RATE DATA ITEM IS DATA ITEM NO.:    18
+   INTERVAL DATA ITEM IS DATA ITEM NO.:      8
+   ADDL. DOSES DATA ITEM IS DATA ITEM NO.:   7
+   COMPT. NO. DATA ITEM IS DATA ITEM NO.:    6
+
+0PK SUBROUTINE CALLED WITH EVERY EVENT RECORD.
+ PK SUBROUTINE NOT CALLED AT NONEVENT (ADDITIONAL OR LAGGED) DOSE TIMES.
+0ERROR SUBROUTINE CALLED WITH EVERY EVENT RECORD.
+]]></nm:problem_information>
+<nm:problem_options
+ nm:data_checkout_run='no' nm:data_unit='2' nm:data_rewind='no' nm:data_nrec='206' nm:data_nitems='20' nm:data_id='1'
+ nm:data_l2='0' nm:data_dv='4' nm:data_mdv='5' nm:data_mrg='0' nm:data_raw='0' nm:data_rpt='0' nm:data_sub_array1='0'
+ nm:data_sub_array2='0' nm:data_sub_array3='0' nm:data_pred_indices='20,2,3,18,0,8,6,0,0,0,7'
+ nm:data_format='(e3.0,2e7.0,e5.0,7e2.0,e5.0,2e2.0,e7.0,2e2.0,e3.0,e2.0,1f2.0)' nm:data_nobs='175'
+ nm:data_nind='17' nm:data_mdv100='0' nm:nthetat='11' nm:theta_bound_test_omitted='no' nm:omega_blockdim='9'
+ nm:omega_bound_test_omitted='no' nm:sigma_diagdim='1' nm:sigma_bound_test_omitted='no' nm:tab_omitted='no'
+ nm:tab_number='2' nm:tab_seed='11456' nm:tab_ranmethod='3u' nm:tab_esample='300' nm:tab_wres='eigenvalue'
+ nm:tab_fixedetas_01='BLANK' nm:tab_fixedetas_02='BLANK' nm:pred_advan='4' nm:pred_evid='20' nm:pred_time='2'
+ nm:pred_amt='3' nm:pred_rate='18' nm:pred_ii='8' nm:pred_addl='7' nm:pred_cmt='6'
+/>
+<nm:estimation nm:number='1' nm:type='0'>
+<nm:table_series>1</nm:table_series>
+<nm:estimation_method>laplace_cei</nm:estimation_method>
+<nm:estimation_title>Laplacian Conditional Estimation with Interaction</nm:estimation_title>
+<nm:estimation_information><![CDATA[
+ ESTIMATION STEP OMITTED:                 NO
+ ANALYSIS TYPE:                           POPULATION
+ NUMBER OF SADDLE POINT RESET ITERATIONS:      0
+ GRADIENT METHOD USED:               SLOW
+ CONDITIONAL ESTIMATES USED:              YES
+ CENTERED ETA:                            NO
+ EPS-ETA INTERACTION:                     YES
+ LAPLACIAN OBJ. FUNC.:                    YES
+ NUMERICAL 2ND DERIVATIVES:               YES
+ NO. OF FUNCT. EVALS. ALLOWED:            9999
+ NO. OF SIG. FIGURES REQUIRED:            3
+ INTERMEDIATE PRINTOUT:                   YES
+ ESTIMATE OUTPUT TO MSF:                  NO
+ ABORT WITH PRED EXIT CODE 1:             NO
+ IND. OBJ. FUNC. VALUES SORTED:           NO
+ NUMERICAL DERIVATIVE
+       FILE REQUEST (NUMDER):               NONE
+ MAP (ETAHAT) ESTIMATION METHOD (OPTMAP):   0
+ ETA HESSIAN EVALUATION METHOD (ETADER):    0
+ INITIAL ETA FOR MAP ESTIMATION (MCETA):    0
+ SIGDIGITS FOR MAP ESTIMATION (SIGLO):      100
+ GRADIENT SIGDIGITS OF
+       FIXED EFFECTS PARAMETERS (SIGL):     100
+ NOPRIOR SETTING (NOPRIOR):                 OFF
+ NOCOV SETTING (NOCOV):                     OFF
+ DERCONT SETTING (DERCONT):                 OFF
+ FINAL ETA RE-EVALUATION (FNLETA):          ON
+ EXCLUDE NON-INFLUENTIAL (NON-INFL.) ETAS
+       IN SHRINKAGE (ETASTYPE):             NO
+ NON-INFL. ETA CORRECTION (NONINFETA):      OFF
+ RAW OUTPUT FILE (FILE): dual3_1.ext
+ EXCLUDE TITLE (NOTITLE):                   NO
+ EXCLUDE COLUMN LABELS (NOLABEL):           NO
+ FORMAT FOR ADDITIONAL FILES (FORMAT):      S1PE12.5
+ PARAMETER ORDER FOR OUTPUTS (ORDER):       TSOL
+ WISHART PRIOR DF INTERPRETATION (WISHTYPE):0
+ KNUTHSUMOFF:                               0
+ INCLUDE LNTWOPI:                           NO
+ INCLUDE CONSTANT TERM TO PRIOR (PRIORC):   NO
+ INCLUDE CONSTANT TERM TO OMEGA (ETA) (OLNTWOPI):NO
+ ADDITIONAL CONVERGENCE TEST (CTYPE=4)?:    NO
+ EM OR BAYESIAN METHOD USED:                 NONE
+
+]]></nm:estimation_information>
+<nm:estimation_options
+ nm:estim_omitted='no' nm:analysis_type='pop' nm:saddle_reset='0' nm:saddle_hess='0' nm:slow_gradient='slow'
+ nm:cond_estim='yes' nm:centered_eta='no' nm:epseta_interaction='yes' nm:laplace='yes' nm:numerical_2nd_der='yes'
+ nm:predflag='0' nm:maxfn='9999' nm:nsig='3' nm:msfo='no' nm:abort='no' nm:objsort='no' nm:numder='0' nm:optmap='0'
+ nm:etader='0' nm:mceta='0' nm:siglo='100' nm:sigl='100' nm:noprior='0' nm:nocov='0' nm:dercont='0' nm:atol='0' nm:fnleta='1'
+ nm:etastype='0' nm:noninfeta='0' nm:file='dual3_1.ext' nm:notitle='0' nm:nolabel='0' nm:format='s1pe12.5'
+ nm:order='tsol' nm:wishtype='0' nm:knuthsumoff='0' nm:lntwopi='0' nm:priorc='0' nm:olntwopi='0' nm:ctype='0'
+/>
+<nm:monitor>
+<nm:obj nm:iteration='0'>1696.9735516093713</nm:obj>
+<nm:obj nm:iteration='10'>1100.9222076623848</nm:obj>
+<nm:obj nm:iteration='20'>1019.8303754720628</nm:obj>
+<nm:obj nm:iteration='30'>1008.0375161859391</nm:obj>
+<nm:obj nm:iteration='40'>1007.8893242051925</nm:obj>
+<nm:obj nm:iteration='50'>1007.7483887457184</nm:obj>
+<nm:obj nm:iteration='60'>1007.2294400770429</nm:obj>
+<nm:obj nm:iteration='63'>1007.2294340342893</nm:obj>
+</nm:monitor>
+<nm:termination_status>0</nm:termination_status>
+<nm:termination_nfuncevals>1174</nm:termination_nfuncevals>
+<nm:termination_sigdigits>3.1024405872930387</nm:termination_sigdigits>
+<nm:termination_information><![CDATA[
+0MINIMIZATION SUCCESSFUL
+ NO. OF FUNCTION EVALUATIONS USED:     1174
+ NO. OF SIG. DIGITS IN FINAL EST.:  3.1
+0PARAMETER ESTIMATE IS NEAR ITS BOUNDARY
+ THIS MUST BE ADDRESSED BEFORE THE COVARIANCE STEP CAN BE IMPLEMENTED
+]]></nm:termination_information>
+<nm:termination_txtmsg>
+<nm:val nm:name='1'>37</nm:val>
+<nm:val nm:name='2'>40</nm:val>
+<nm:val nm:name='3'>44</nm:val>
+</nm:termination_txtmsg>
+<nm:etabar>
+<nm:row nm:rname='SUBPOP1'>
+<nm:col nm:cname='ETA1'>4.09986814279894377E-002</nm:col>
+<nm:col nm:cname='ETA2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA5'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA6'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA7'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA8'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA9'>0.0000000000000000</nm:col>
+</nm:row>
+</nm:etabar>
+<nm:etabarse>
+<nm:row nm:rname='SUBPOP1'>
+<nm:col nm:cname='ETA1'>0.18063806609340563</nm:col>
+<nm:col nm:cname='ETA2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA5'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA6'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA7'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA8'>0.0000000000000000</nm:col>
+<nm:col nm:cname='ETA9'>0.0000000000000000</nm:col>
+</nm:row>
+</nm:etabarse>
+<nm:etabarn>
+<nm:row nm:rname='SUBPOP1'>
+<nm:col nm:cname='ETA1'>17</nm:col>
+<nm:col nm:cname='ETA2'>17</nm:col>
+<nm:col nm:cname='ETA3'>17</nm:col>
+<nm:col nm:cname='ETA4'>17</nm:col>
+<nm:col nm:cname='ETA5'>17</nm:col>
+<nm:col nm:cname='ETA6'>17</nm:col>
+<nm:col nm:cname='ETA7'>17</nm:col>
+<nm:col nm:cname='ETA8'>17</nm:col>
+<nm:col nm:cname='ETA9'>17</nm:col>
+</nm:row>
+</nm:etabarn>
+<nm:etabarpval>
+<nm:row nm:rname='SUBPOP1'>
+<nm:col nm:cname='ETA1'>0.82045033570098547</nm:col>
+<nm:col nm:cname='ETA2'>1.0000000000000000</nm:col>
+<nm:col nm:cname='ETA3'>1.0000000000000000</nm:col>
+<nm:col nm:cname='ETA4'>1.0000000000000000</nm:col>
+<nm:col nm:cname='ETA5'>1.0000000000000000</nm:col>
+<nm:col nm:cname='ETA6'>1.0000000000000000</nm:col>
+<nm:col nm:cname='ETA7'>1.0000000000000000</nm:col>
+<nm:col nm:cname='ETA8'>1.0000000000000000</nm:col>
+<nm:col nm:cname='ETA9'>1.0000000000000000</nm:col>
+</nm:row>
+</nm:etabarpval>
+<nm:etashrinksd>
+<nm:row nm:rname='SUBPOP1'>
+<nm:col nm:cname='ETA1'>1.00000000000000004E-010</nm:col>
+<nm:col nm:cname='ETA2'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA3'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA4'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA5'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA6'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA7'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA8'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA9'>100.00000000000000</nm:col>
+</nm:row>
+</nm:etashrinksd>
+<nm:etashrinkvr>
+<nm:row nm:rname='SUBPOP1'>
+<nm:col nm:cname='ETA1'>1.00000000000000004E-010</nm:col>
+<nm:col nm:cname='ETA2'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA3'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA4'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA5'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA6'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA7'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA8'>100.00000000000000</nm:col>
+<nm:col nm:cname='ETA9'>100.00000000000000</nm:col>
+</nm:row>
+</nm:etashrinkvr>
+<nm:ebvshrinksd>
+<nm:row nm:rname='SUBPOP1'>
+<nm:col nm:cname='EBV1'>2.3759190734153446</nm:col>
+<nm:col nm:cname='EBV2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV5'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV6'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV7'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV8'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV9'>0.0000000000000000</nm:col>
+</nm:row>
+</nm:ebvshrinksd>
+<nm:ebvshrinkvr>
+<nm:row nm:rname='SUBPOP1'>
+<nm:col nm:cname='EBV1'>4.6953882323964988</nm:col>
+<nm:col nm:cname='EBV2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV5'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV6'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV7'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV8'>0.0000000000000000</nm:col>
+<nm:col nm:cname='EBV9'>0.0000000000000000</nm:col>
+</nm:row>
+</nm:ebvshrinkvr>
+<nm:epsshrinksd>
+<nm:row nm:rname='SUBPOP1'>
+<nm:col nm:cname='EPS1'>12.125759820928783</nm:col>
+</nm:row>
+</nm:epsshrinksd>
+<nm:epsshrinkvr>
+<nm:row nm:rname='SUBPOP1'>
+<nm:col nm:cname='EPS1'>22.781179129509066</nm:col>
+</nm:row>
+</nm:epsshrinkvr>
+<nm:estimation_elapsed_time>4.91</nm:estimation_elapsed_time>
+<nm:final_objective_function_text>MINIMUM VALUE OF OBJECTIVE FUNCTION</nm:final_objective_function_text>
+<nm:final_objective_function>1007.2294340342893</nm:final_objective_function>
+<nm:theta>
+<nm:val nm:name='1'>1.00000000000000005E-004</nm:val>
+<nm:val nm:name='2'>-0.77168621951946836</nm:val>
+<nm:val nm:name='3'>17.319933178992148</nm:val>
+<nm:val nm:name='4'>3.2591622816586883</nm:val>
+<nm:val nm:name='5'>1.9747636825047246</nm:val>
+<nm:val nm:name='6'>0.31945211288450159</nm:val>
+<nm:val nm:name='7'>1.00000000000000002E-002</nm:val>
+<nm:val nm:name='8'>0.13205008246601541</nm:val>
+<nm:val nm:name='9'>0.41475030473285940</nm:val>
+<nm:val nm:name='10'>11.914730682379682</nm:val>
+<nm:val nm:name='11'>11.912134713277432</nm:val>
+</nm:theta>
+<nm:omega>
+<nm:row nm:rname='1'>
+<nm:col nm:cname='1'>0.57137664460919779</nm:col>
+</nm:row>
+<nm:row nm:rname='2'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='3'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='4'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='4'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='5'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='5'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='6'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='5'>0.0000000000000000</nm:col>
+<nm:col nm:cname='6'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='7'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='5'>0.0000000000000000</nm:col>
+<nm:col nm:cname='6'>0.0000000000000000</nm:col>
+<nm:col nm:cname='7'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='8'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='5'>0.0000000000000000</nm:col>
+<nm:col nm:cname='6'>0.0000000000000000</nm:col>
+<nm:col nm:cname='7'>0.0000000000000000</nm:col>
+<nm:col nm:cname='8'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='9'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='5'>0.0000000000000000</nm:col>
+<nm:col nm:cname='6'>0.0000000000000000</nm:col>
+<nm:col nm:cname='7'>0.0000000000000000</nm:col>
+<nm:col nm:cname='8'>0.0000000000000000</nm:col>
+<nm:col nm:cname='9'>0.0000000000000000</nm:col>
+</nm:row>
+</nm:omega>
+<nm:sigma>
+<nm:row nm:rname='1'>
+<nm:col nm:cname='1'>1.0000000000000000</nm:col>
+</nm:row>
+</nm:sigma>
+<nm:omegac>
+<nm:row nm:rname='1'>
+<nm:col nm:cname='1'>0.75589459887552957</nm:col>
+</nm:row>
+<nm:row nm:rname='2'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='3'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='4'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='4'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='5'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='5'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='6'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='5'>0.0000000000000000</nm:col>
+<nm:col nm:cname='6'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='7'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='5'>0.0000000000000000</nm:col>
+<nm:col nm:cname='6'>0.0000000000000000</nm:col>
+<nm:col nm:cname='7'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='8'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='5'>0.0000000000000000</nm:col>
+<nm:col nm:cname='6'>0.0000000000000000</nm:col>
+<nm:col nm:cname='7'>0.0000000000000000</nm:col>
+<nm:col nm:cname='8'>0.0000000000000000</nm:col>
+</nm:row>
+<nm:row nm:rname='9'>
+<nm:col nm:cname='1'>0.0000000000000000</nm:col>
+<nm:col nm:cname='2'>0.0000000000000000</nm:col>
+<nm:col nm:cname='3'>0.0000000000000000</nm:col>
+<nm:col nm:cname='4'>0.0000000000000000</nm:col>
+<nm:col nm:cname='5'>0.0000000000000000</nm:col>
+<nm:col nm:cname='6'>0.0000000000000000</nm:col>
+<nm:col nm:cname='7'>0.0000000000000000</nm:col>
+<nm:col nm:cname='8'>0.0000000000000000</nm:col>
+<nm:col nm:cname='9'>0.0000000000000000</nm:col>
+</nm:row>
+</nm:omegac>
+<nm:sigmac>
+<nm:row nm:rname='1'>
+<nm:col nm:cname='1'>1.0000000000000000</nm:col>
+</nm:row>
+</nm:sigmac>
+</nm:estimation>
+<nm:post_process_times>
+<nm:post_elapsed_time>0.01</nm:post_elapsed_time>
+<nm:finaloutput_elapsed_time>0.08</nm:finaloutput_elapsed_time>
+</nm:post_process_times>
+</nm:problem>
+</nm:nonmem>
+<nm:stop_datetime>2020-11-02T21:23:47.898</nm:stop_datetime>
+<nm:total_cputime>4.953</nm:total_cputime>
+</nm:output>
