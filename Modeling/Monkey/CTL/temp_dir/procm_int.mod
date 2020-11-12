@@ -1,5 +1,5 @@
-GFORTRAN module version '6' created from PRGLOBALP.f90 on Mon Nov 02 21:42:10 2020
-MD5:9b14036651e93b0c803b943e08686367 -- If you edit this, you'll get what you deserve.
+GFORTRAN module version '6' created from PRGLOBALP.f90 on Wed Nov 04 12:15:33 2020
+MD5:ca4c4bdfeb99ff353d8547102d4be3e8 -- If you edit this, you'll get what you deserve.
 
 (() () () () () () () () () () () () () () () () () () () () () () ()
 () () () ())
@@ -20,7 +20,7 @@ UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 ()
 3 'idxeta' 'procm_int' 'idxeta' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (INTEGER 4 0 0 INTEGER ()) 0 0 () (
 1 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '0') (CONSTANT (
-INTEGER 4 0 0 INTEGER ()) 0 '10')) 0 () () () 0 0)
+INTEGER 4 0 0 INTEGER ()) 0 '6')) 0 () () () 0 0)
 4 'isfinl' 'procm_int' 'isfinl' 1 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () () 0 () ()
 () 0 0)
@@ -49,7 +49,7 @@ UNKNOWN IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () (CONSTANT (
 INTEGER 4 0 0 INTEGER ()) 0 '1') () 0 () () () 0 0)
 12 'pe' 'prsizes' 'pe' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
 IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () (CONSTANT (INTEGER
-4 0 0 INTEGER ()) 0 '10') () 0 () () () 0 0)
+4 0 0 INTEGER ()) 0 '6') () 0 () () () 0 0)
 13 'pnewif' 'procm_int' 'pnewif' 1 ((VARIABLE UNKNOWN-INTENT
 UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 ()
 () 0 () () () 0 0)

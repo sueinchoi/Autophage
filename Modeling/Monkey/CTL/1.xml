@@ -5,7 +5,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://namespaces.oreilly.com/xmlnut/address output.xsd"
 xmlns:nm="http://namespaces.oreilly.com/xmlnut/address"
 >
-<nm:start_datetime>2020-11-02T16:46:22.086</nm:start_datetime>
+<nm:start_datetime>2020-11-04T12:15:45.033</nm:start_datetime>
 <nm:control_stream><![CDATA[
 $PROB Simple_2comp, M3 method
 $INPUT ID TIME AMT DV MDV CMT ADDL II SPECIES SEX MULTIPLE DOSE ROUTE FORMULATION TAD BQL LIV TYPE
@@ -79,8 +79,8 @@ $TABLE ID CL V2 V3 Q KA F1 DOSE                      ONEHEADER NOPRINT NOAPPEND 
 <nm:license_information><![CDATA[
 License Registered to: Qfitter Inc
 Expiration Date:    14 MAY 2021
-Current Date:        2 NOV 2020
-Days until program expires : 197
+Current Date:        4 NOV 2020
+Days until program expires : 195
 ]]></nm:license_information>
 <nm:program_information><![CDATA[
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.1
@@ -388,7 +388,7 @@ Days until program expires : 197
 <nm:col nm:cname='EPS1'>1.00000000000000004E-010</nm:col>
 </nm:row>
 </nm:epsshrinkvr>
-<nm:estimation_elapsed_time>0.11</nm:estimation_elapsed_time>
+<nm:estimation_elapsed_time>0.17</nm:estimation_elapsed_time>
 <nm:final_objective_function_text>MINIMUM VALUE OF OBJECTIVE FUNCTION</nm:final_objective_function_text>
 <nm:final_objective_function>1092.8941824280685</nm:final_objective_function>
 <nm:theta>
@@ -483,11 +483,11 @@ Days until program expires : 197
 </nm:sigmac>
 </nm:estimation>
 <nm:post_process_times>
-<nm:post_elapsed_time>0.01</nm:post_elapsed_time>
-<nm:finaloutput_elapsed_time>0.05</nm:finaloutput_elapsed_time>
+<nm:post_elapsed_time>0.00</nm:post_elapsed_time>
+<nm:finaloutput_elapsed_time>0.08</nm:finaloutput_elapsed_time>
 </nm:post_process_times>
 </nm:problem>
 </nm:nonmem>
-<nm:stop_datetime>2020-11-02T16:46:22.342</nm:stop_datetime>
+<nm:stop_datetime>2020-11-04T12:15:45.392</nm:stop_datetime>
 <nm:total_cputime>0.188</nm:total_cputime>
 </nm:output>

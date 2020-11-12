@@ -1,5 +1,5 @@
-2020-11-02 
-오후 04:46
+2020-11-04 
+오후 12:15
 $PROB Simple_2comp, M3 method 
 $INPUT ID TIME AMT DV MDV CMT ADDL II SPECIES SEX MULTIPLE DOSE ROUTE FORMULATION TAD BQL LIV TYPE 
 $DATA  ..//Monkey_plasma_m3.csv IGNORE=@
@@ -70,8 +70,8 @@ NM-TRAN MESSAGES
   
 License Registered to: Qfitter Inc
 Expiration Date:    14 MAY 2021
-Current Date:        2 NOV 2020
-Days until program expires : 197
+Current Date:        4 NOV 2020
+Days until program expires : 195
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -313,8 +313,8 @@ Days until program expires : 197
  TOTAL EFFECTIVE ETAS (NIND*NETA):                             0
   
  #TERE:
- Elapsed estimation  time in seconds:     0.11
- Elapsed postprocess time in seconds:     0.01
+ Elapsed estimation  time in seconds:     0.17
+ Elapsed postprocess time in seconds:     0.00
 1
  
  
@@ -437,8 +437,8 @@ Days until program expires : 197
  EPS1
 +        1.00E+00
  
- Elapsed finaloutput time in seconds:     0.05
+ Elapsed finaloutput time in seconds:     0.08
  #CPUT: Total CPU Time in Seconds,        0.188
 Stop Time: 
-2020-11-02 
-오후 04:46
+2020-11-04 
+오후 12:15

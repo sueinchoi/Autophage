@@ -1,5 +1,5 @@
-GFORTRAN module version '6' created from PRSIZES.f90 on Tue Oct 27 19:44:51 2020
-MD5:a71081af866f23865e1766c836bb4456 -- If you edit this, you'll get what you deserve.
+GFORTRAN module version '6' created from PRSIZES.f90 on Wed Nov 04 19:40:14 2020
+MD5:aba8e6d15386dc1bb5e6d4390e79d300 -- If you edit this, you'll get what you deserve.
 
 (() () () () () () () () () () () () () () () () () () () () () () () ()
 () () ())
@@ -40,19 +40,19 @@ UNKNOWN IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () (CONSTANT (
 INTEGER 4 0 0 INTEGER ()) 0 '1') () 0 () () () 0 0)
 10 'pd' 'prsizes' 'pd' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
 IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () (CONSTANT (INTEGER
-4 0 0 INTEGER ()) 0 '16') () 0 () () () 0 0)
+4 0 0 INTEGER ()) 0 '20') () 0 () () () 0 0)
 11 'pe' 'prsizes' 'pe' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
 IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () (CONSTANT (INTEGER
-4 0 0 INTEGER ()) 0 '6') () 0 () () () 0 0)
+4 0 0 INTEGER ()) 0 '11') () 0 () () () 0 0)
 12 'pes' 'prsizes' 'pes' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () (CONSTANT (
-INTEGER 4 0 0 INTEGER ()) 0 '1') () 0 () () () 0 0)
+INTEGER 4 0 0 INTEGER ()) 0 '2') () 0 () () () 0 0)
 13 'pg' 'prsizes' 'pg' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
 IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () (CONSTANT (INTEGER
 4 0 0 INTEGER ()) 0 '80') () 0 () () () 0 0)
 14 'pir' 'prsizes' 'pir' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () (CONSTANT (
-INTEGER 4 0 0 INTEGER ()) 0 '1') () 0 () () () 0 0)
+INTEGER 4 0 0 INTEGER ()) 0 '56') () 0 () () () 0 0)
 15 'prsizes' 'prsizes' 'prsizes' 1 ((MODULE UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN UNKNOWN 0 0) (UNKNOWN 0 0 0 UNKNOWN ()) 0 0 () () 0 () () () 0 0)
 16 'sd' 'prsizes' 'sd' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
