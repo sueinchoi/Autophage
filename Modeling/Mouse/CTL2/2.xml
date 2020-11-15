@@ -5,7 +5,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://namespaces.oreilly.com/xmlnut/address output.xsd"
 xmlns:nm="http://namespaces.oreilly.com/xmlnut/address"
 >
-<nm:start_datetime>2020-11-04T20:00:17.828</nm:start_datetime>
+<nm:start_datetime>2020-11-15T20:57:42.570</nm:start_datetime>
 <nm:control_stream><![CDATA[
 $PROB Mouse_liver_2comp
 $INPUT ID TIME AMT DV MDV CMT ADDL II SPECIES SEX MULTIPLE DOSE ROUTE FORMULATION TAD BQL LIV WT LVW
@@ -146,20 +146,62 @@ $TABLE ID TIME AMT CMT DV MDV IPRED CWRES IWRES  ONEHEADER NOPRINT  FILE = sdtab
    IPRED W IRES IWRES Y
 
 ]]></nm:nmtran>
-<nm:nonmem nm:version='7.4.1'>
+<nm:nonmem nm:version='7.4.3'>
 <nm:license_information><![CDATA[
-License Registered to: Qfitter Inc
-Expiration Date:    14 MAY 2021
-Current Date:        4 NOV 2020
-Days until program expires : 195
+License Registered to: Seoul St. Mary's Hospital
+Expiration Date:    14 JUN 2021
+Current Date:       15 NOV 2020
+Days until program expires : 214
 ]]></nm:license_information>
 <nm:program_information><![CDATA[
-1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.1
+1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
  AND ALISON BOECKMANN. IMPLEMENTATION, EFFICIENCY, AND STANDARDIZATION
  PERFORMED BY NOUS INFOSYSTEMS.
 ]]></nm:program_information>
+<nm:theta_lb>
+<nm:val nm:name='1'>1.0000000000000000E-004</nm:val>
+<nm:val nm:name='2'>-1000000.0000000000</nm:val>
+<nm:val nm:name='3'>1.0000000000000000E-004</nm:val>
+<nm:val nm:name='4'>-1000000.0000000000</nm:val>
+<nm:val nm:name='5'>0.0000000000000000</nm:val>
+<nm:val nm:name='6'>0.0000000000000000</nm:val>
+<nm:val nm:name='7'>0.0000000000000000</nm:val>
+<nm:val nm:name='8'>0.0000000000000000</nm:val>
+<nm:val nm:name='9'>0.0000000000000000</nm:val>
+<nm:val nm:name='10'>0.0000000000000000</nm:val>
+<nm:val nm:name='11'>0.0000000000000000</nm:val>
+<nm:val nm:name='12'>0.0000000000000000</nm:val>
+</nm:theta_lb>
+<nm:theta_in>
+<nm:val nm:name='1'>1.0000000000000000E-004</nm:val>
+<nm:val nm:name='2'>0.50000000000000000</nm:val>
+<nm:val nm:name='3'>1.0000000000000000E-004</nm:val>
+<nm:val nm:name='4'>0.50000000000000000</nm:val>
+<nm:val nm:name='5'>0.0000000000000000</nm:val>
+<nm:val nm:name='6'>100.00000000000000</nm:val>
+<nm:val nm:name='7'>100.00000000000000</nm:val>
+<nm:val nm:name='8'>5000.0000000000000</nm:val>
+<nm:val nm:name='9'>5.0000000000000000</nm:val>
+<nm:val nm:name='10'>0.50000000000000000</nm:val>
+<nm:val nm:name='11'>200.00000000000000</nm:val>
+<nm:val nm:name='12'>10.000000000000000</nm:val>
+</nm:theta_in>
+<nm:theta_ub>
+<nm:val nm:name='1'>1.0000000000000000E-004</nm:val>
+<nm:val nm:name='2'>1000000.0000000000</nm:val>
+<nm:val nm:name='3'>1.0000000000000000E-004</nm:val>
+<nm:val nm:name='4'>1000000.0000000000</nm:val>
+<nm:val nm:name='5'>0.0000000000000000</nm:val>
+<nm:val nm:name='6'>1000000.0000000000</nm:val>
+<nm:val nm:name='7'>1000000.0000000000</nm:val>
+<nm:val nm:name='8'>1000000.0000000000</nm:val>
+<nm:val nm:name='9'>1000000.0000000000</nm:val>
+<nm:val nm:name='10'>1.0000000000000000</nm:val>
+<nm:val nm:name='11'>1000000.0000000000</nm:val>
+<nm:val nm:name='12'>50.000000000000000</nm:val>
+</nm:theta_ub>
 <nm:problem nm:number='1' nm:subproblem='0' nm:superproblem1='0' nm:iteration1='0' nm:superproblem2='0' nm:iteration2='0'>
 <nm:problem_title>Mouse_liver_2comp</nm:problem_title>
 <nm:problem_information><![CDATA[
@@ -241,7 +283,7 @@ Days until program expires : 195
  FIXED_EFFECT_ETAS:
 0USER-CHOSEN ITEMS:
  ID TIME AMT CMT DV MDV IPRED CWRES IWRES
-1DOUBLE PRECISION PREDPP VERSION 7.4.1
+1DOUBLE PRECISION PREDPP VERSION 7.4.3
 
  GENERAL NONLINEAR KINETICS MODEL (DVERK1, ADVAN6)
 0MODEL SUBROUTINE USER-SUPPLIED - ID NO. 9999
@@ -349,23 +391,22 @@ Days until program expires : 195
  nm:ctype='0'
 />
 <nm:monitor>
-<nm:obj nm:iteration='0'>88903065497.060623</nm:obj>
-<nm:obj nm:iteration='10'>5688.1973564026184</nm:obj>
-<nm:obj nm:iteration='20'>1465.9626325961644</nm:obj>
-<nm:obj nm:iteration='30'>1320.0841727365228</nm:obj>
-<nm:obj nm:iteration='40'>1314.5289537492463</nm:obj>
-<nm:obj nm:iteration='50'>1313.6182377496793</nm:obj>
-<nm:obj nm:iteration='60'>1313.6020663023444</nm:obj>
-<nm:obj nm:iteration='70'>1110.1159908152547</nm:obj>
-<nm:obj nm:iteration='80'>1085.4633610027086</nm:obj>
-<nm:obj nm:iteration='88'>1083.8767728929113</nm:obj>
+<nm:obj nm:iteration='0'>88903065497.058456</nm:obj>
+<nm:obj nm:iteration='10'>5688.2020858801607</nm:obj>
+<nm:obj nm:iteration='20'>1465.9959344422839</nm:obj>
+<nm:obj nm:iteration='30'>1320.0828406065043</nm:obj>
+<nm:obj nm:iteration='40'>1314.1908649445536</nm:obj>
+<nm:obj nm:iteration='50'>1313.6031699826567</nm:obj>
+<nm:obj nm:iteration='60'>1109.6083521159317</nm:obj>
+<nm:obj nm:iteration='70'>1083.8846667754160</nm:obj>
+<nm:obj nm:iteration='75'>1083.8767774043806</nm:obj>
 </nm:monitor>
 <nm:termination_status>0</nm:termination_status>
-<nm:termination_nfuncevals>1131</nm:termination_nfuncevals>
-<nm:termination_sigdigits>3.9635387290328872</nm:termination_sigdigits>
+<nm:termination_nfuncevals>934</nm:termination_nfuncevals>
+<nm:termination_sigdigits>3.9873662683065394</nm:termination_sigdigits>
 <nm:termination_information><![CDATA[
 0MINIMIZATION SUCCESSFUL
- NO. OF FUNCTION EVALUATIONS USED:     1131
+ NO. OF FUNCTION EVALUATIONS USED:      934
  NO. OF SIG. DIGITS IN FINAL EST.:  4.0
 0PARAMETER ESTIMATE IS NEAR ITS BOUNDARY
  THIS MUST BE ADDRESSED BEFORE THE COVARIANCE STEP CAN BE IMPLEMENTED
@@ -376,19 +417,19 @@ Days until program expires : 195
 <nm:val nm:name='3'>44</nm:val>
 <nm:val nm:name='4'>49</nm:val>
 </nm:termination_txtmsg>
-<nm:estimation_elapsed_time>152.84</nm:estimation_elapsed_time>
+<nm:estimation_elapsed_time>85.86</nm:estimation_elapsed_time>
 <nm:final_objective_function_text>MINIMUM VALUE OF OBJECTIVE FUNCTION</nm:final_objective_function_text>
-<nm:final_objective_function>1083.8767728929113</nm:final_objective_function>
+<nm:final_objective_function>1083.8767774043806</nm:final_objective_function>
 <nm:theta>
-<nm:val nm:name='1'>1.00000000000000005E-004</nm:val>
-<nm:val nm:name='2'>1471.3852483951732</nm:val>
-<nm:val nm:name='3'>1.00000000000000005E-004</nm:val>
-<nm:val nm:name='4'>-122.50619877940048</nm:val>
+<nm:val nm:name='1'>1.0000000000000000E-004</nm:val>
+<nm:val nm:name='2'>1471.4559830384349</nm:val>
+<nm:val nm:name='3'>1.0000000000000000E-004</nm:val>
+<nm:val nm:name='4'>-122.53535191658079</nm:val>
 <nm:val nm:name='5'>0.0000000000000000</nm:val>
 <nm:val nm:name='6'>1.0000000000000000</nm:val>
-<nm:val nm:name='7'>2341.9162858284449</nm:val>
+<nm:val nm:name='7'>2342.6977144805542</nm:val>
 <nm:val nm:name='8'>50.000000000000000</nm:val>
-<nm:val nm:name='9'>5.00000000000000028E-002</nm:val>
+<nm:val nm:name='9'>5.0000000000000003E-002</nm:val>
 <nm:val nm:name='10'>0.99500000000000000</nm:val>
 <nm:val nm:name='11'>2.0000000000000000</nm:val>
 <nm:val nm:name='12'>49.600000000000001</nm:val>
@@ -593,11 +634,11 @@ Days until program expires : 195
 </nm:sigmac>
 </nm:estimation>
 <nm:post_process_times>
-<nm:post_elapsed_time>0.13</nm:post_elapsed_time>
-<nm:finaloutput_elapsed_time>0.02</nm:finaloutput_elapsed_time>
+<nm:post_elapsed_time>0.09</nm:post_elapsed_time>
+<nm:finaloutput_elapsed_time>0.01</nm:finaloutput_elapsed_time>
 </nm:post_process_times>
 </nm:problem>
 </nm:nonmem>
-<nm:stop_datetime>2020-11-04T20:02:50.894</nm:stop_datetime>
-<nm:total_cputime>149.609</nm:total_cputime>
+<nm:stop_datetime>2020-11-15T20:59:08.537</nm:stop_datetime>
+<nm:total_cputime>85.938</nm:total_cputime>
 </nm:output>
