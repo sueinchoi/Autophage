@@ -1,14 +1,14 @@
 library(tidyverse)
 library(plotly)
 library(zoo)
-
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 indiv <- read.csv('Mouse_individual.csv', header = T, stringsAsFactors = F)
 head(indiv)
 Time <- colnames(indiv)[-c(1,2)]
 Time <- parse_number(Time)
 Time
 head(indiv)
-indiv <- indiv %>% 
+indiv <- indiv %>%
     mutate(SEQ = rep(1:6, 2))
 colnames(indiv)[3:length(colnames(indiv))] <- Time
 plasma <- indiv[1:6,] %>%
@@ -36,7 +36,7 @@ head(liver)
 Time <- colnames(liver)[-c(1,2)]
 Time <- parse_number(Time)
 Time
-liver <- liver %>% 
+liver <- liver %>%
     mutate(SEQ = rep(1:6, 2))
 colnames(liver)[3:length(colnames(liver))] <- Time
 
@@ -71,7 +71,7 @@ total2 <- total %>%
     rbind(DM2) %>%
     arrange(ID, Time, MDV, CMT) %>%
     mutate(ADDL = NA, II = NA, SPECIES = 1, DOSE = 10, FORMULATION = 1, TAD = Time) %>%
-    rename(ROUTE = ADM, BQL = BLQ, LVW = LIW, TIME = Time) %>% 
+    rename(ROUTE = ADM, BQL = BLQ, LVW = LIW, TIME = Time) %>%
     select(ID, TIME, AMT, DV, MDV, CMT, ADDL, II, SPECIES, DOSE, ROUTE, FORMULATION, TAD, BQL, WT, LVW) %>%
     mutate(AMT = AMT * WT * 1000)
 
@@ -101,7 +101,7 @@ raw %>%
 
 
 raw %>%
-    
+
 a <- read.csv('Monkey_plasma_dual.csv', header = T, stringsAsFactors = F)
 head(a)
 unique(a$)
@@ -118,7 +118,7 @@ a %>%
     mutate(TYPE = ifelse(BQL == 0, 1, 2), MDV = ifelse(BQL == 1, 0, MDV), DV = ifelse(BQL == 1, 0.5, DV)) %>%
     left_join(WT, by = 'ID') %>%
     mutate(AMT2 = AMT, AMT = as.numeric(AMT2) * WT) %>%
-    
+
 getwd()
 setwd(paste0(getwd(), "/Modeling/Monkey/CTL"))
 sdtab <- read.table('Modeling/Monkey/CTL/sdtab002', stringsAsFactors = F, header = T, skip =1)
@@ -152,4 +152,55 @@ patab %>%
     group_by(ID) %>%
     slice(1)
 
-?geom_smooth
+
+### 2020_11_01 iv 10mpk, po 10mpk, po 25mpk  ###
+
+library(fs)
+library(EnvStats)
+library(pastecs)
+
+csv_files <- fs::dir_ls(getwd(), regexp = "\\.csv$")
+
+exp <- read_csv(csv_files[4], na = ".")
+data <- read_csv('Data2020_11_05.csv', na = ".")
+# exp[exp == '.'] <- NA
+
+time <- data$TIME
+time <- time[!is.na(time)]
+time <- rep(time, each = 3)
+data$TIME <- time
+data2 <- data %>%
+    mutate(ID = 67:(66 + nrow(.)), AMT = NA, DOSE = na.locf(DOSE), ROUTE = na.locf(ROUTE), MDV = 0, CMT = 3, ADDL = NA, II = NA, SPECIES = 1, FORMULATION = 1, TAD = TIME, BQL = ifelse(is.na(DV), 1, 0), WT = 28, LVW = 1.4)
+data2 %>%
+    bind_rows(data2 %>%
+        mutate(TIME = 0, DV = NA, MDV = 1, CMT = ifelse(ROUTE == 2, 3, 1), AMT = WT * DOSE * 1000)) %>%
+    select(colnames(exp)) %>%
+    bind_rows(exp) %>%
+    arrange(ID, TIME, MDV) %>%
+    write.csv("Plasma_individual.csv", row.names = F, na = ".")data2[1,]
+data[is.na(data)] <- 1
+
+new <- read_csv('Modeling/Mouse/Plasma_individual.csv', na = ".")
+colnames(new)
+firstrow <- new %>%
+  filter(ROUTE == 2) %>%
+  group_by(ID) %>%
+  slice(1)
+
+head(firstrow)
+
+add1 <- firstrow  %>%
+  mutate(AMT = NA, DV = 0, MDV = 0, CMT = 3) %>%
+  bind_rows(new) %>%
+  arrange(ID, TIME, desc(AMT))
+
+liverrow <- new %>%
+  filter(CMT == 2) %>%
+  group_by(ID) %>%
+  slice(1)
+add2 <- liverrow %>%
+  mutate(AMT = NA, DV = 0, TIME = 0, MDV = 0, CMT = 2) %>%
+  bind_rows(add1) %>%
+  arrange(ID, TIME, desc(AMT))
+
+write.csv(add2, "Modeling/Mouse/Plasma_individual2.csv", row.names = F, na = ".")
