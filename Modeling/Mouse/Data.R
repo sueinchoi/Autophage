@@ -159,8 +159,6 @@ library(fs)
 library(EnvStats)
 library(pastecs)
 
-csv_files <- fs::dir_ls(getwd(), regexp = "\\.csv$")
-
 exp <- read_csv(csv_files[4], na = ".")
 data <- read_csv('Data2020_11_05.csv', na = ".")
 # exp[exp == '.'] <- NA
@@ -205,15 +203,83 @@ add2 <- liverrow %>%
 
 write.csv(add2, "Modeling/Mouse/Plasma_individual2.csv", row.names = F, na = ".")
 
-getwd()
+
+
+#### 2020_11_19 50mpk data ####
 library(tidyverse)
-mouse <- read_csv('Modeling/Mouse/Plasma_individual2.csv', na = ".")
+library(zoo)
 
-head(mouse)
 
-mouse %>%
-    filter(MDV == 0, DOSE == 10, ROUTE == 2) %>%
-    ggplot(aes(x = TIME, y = DV)) +
-    geom_point() +
-    scale_y_continuous(trans = 'log10') +
-    facet_wrap(~as.factor(CMT))
+csv_files <- fs::dir_ls('Modeling/Mouse', regexp = "\\.csv$")
+prevdataname <- csv_files[length(csv_files)]
+
+
+prevdata <- read_csv(prevdataname, na = ".")
+
+head(prevdata)
+length(unique(prevdata$ID))
+summary(prevdata$ID)
+
+data <- read_csv('Modeling/Mouse/Data2020_11_20.csv', na = ".")
+# exp[exp == '.'] <- NA
+dim(data)
+time <- data$TIME
+time <- time[!is.na(time)]
+time
+time <- rep(time, 8)
+data$TIME <- time
+nrow(data)
+ID = rep(160:(159 + 112/2), 2)
+ID
+data2 <- data %>%
+    mutate(ID = rep(160:(159 + nrow(.)/2), 2), AMT = NA, DOSE = na.locf(DOSE), ROUTE = na.locf(ROUTE), MDV = 0, CMT = na.locf(CMT), ADDL = NA, II = NA, SPECIES = 1, FORMULATION = 1, TAD = TIME, BQL = ifelse(is.na(DV), 1, 0), WT = 28, LVW = 1.4)
+
+data2 %>%
+    mutate(TIME = 0, DV = NA, MDV = 1, CMT = ifelse(ROUTE == 2, 1, 3), AMT = WT * DOSE * 1000) %>%
+    slice(seq(0.5*n()))
+data2 %>%
+    bind_rows(data2 %>%
+        mutate(TIME = 0, DV = NA, MDV = 1, CMT = ifelse(ROUTE == 2, 1, 3), AMT = WT * DOSE * 1000) %>%
+        slice(seq(0.5*n()))) %>%
+    select(colnames(prevdata)) %>%
+    bind_rows(data2 %>%
+      group_by(ID)  %>%
+      slice(1)  %>%
+      ungroup()  %>%
+      mutate(AMT = NA, DV = 0, MDV = 0, TIME = 0, CMT = 3))  %>%
+    bind_rows(data2 %>%
+      filter(CMT == 2) %>%
+      group_by(ID) %>%
+      slice(1)  %>%
+      ungroup() %>% 
+      mutate(AMT = NA, DV = 0, TIME = 0, MDV = 0, CMT = 2)) %>%
+    bind_rows(prevdata) %>%
+    arrange(ID, TIME, desc(MDV), CMT)  %>%
+    write.csv("Modeling/Mouse/Plasma_individual4.csv", row.names = F, na = ".")
+
+
+####  Data exploration
+new <- read_csv('Modeling/Mouse/Plasma_individual3.csv', na = ".")
+colnames(new)
+firstrow <- new %>%
+  filter(ROUTE == 2) %>%
+  group_by(ID) %>%
+  slice(1)
+
+head(firstrow)
+
+add1 <- firstrow  %>%
+  mutate(AMT = NA, DV = 0, MDV = 0, CMT = 3) %>%
+  bind_rows(new) %>%
+  arrange(ID, TIME, desc(AMT))
+
+liverrow <- new %>%
+  filter(CMT == 2) %>%
+  group_by(ID) %>%
+  slice(1)
+add2 <- liverrow %>%
+  mutate(AMT = NA, DV = 0, TIME = 0, MDV = 0, CMT = 2) %>%
+  bind_rows(add1) %>%
+  arrange(ID, TIME, desc(AMT))
+
+write.csv(add2, "Modeling/Mouse/Plasma_individual2.csv", row.names = F, na = ".")
