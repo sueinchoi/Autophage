@@ -1,36 +1,28 @@
-2020-11-16 
-오후 09:07
+2020-11-20 
+오후 06:42
 $PROB Mouse_liver_2comp
-$INPUT ID TIME AMT DV MDV CMT ADDL II SPECIES DOSE ROUTE FORMULATION TAD BQL WT LVW SECOND RATE
-$DATA  ..//Plasma_individual_dual_iv.csv IGNORE=@ 
-$SUBROUTINE ADVAN3 TRANS4
+$INPUT ID TIME AMT DV MDV SKIP ADDL II SPECIES DOSE ROUTE FORMULATION TAD BQL WT LVW CMT SKIP
+$DATA  ..//Plasma_individual4_only.csv IGNORE=@ 
+$SUBROUTINE ADVAN4 TRANS4
 
 $PK
  ;---- PK FIXED EFFECT ----
-
  ;Distribution
  CL = THETA(3)* EXP(ETA(1))
- V1 = THETA(4)* EXP(ETA(2))
- V2 = THETA(5)* EXP(ETA(3))
+ V2 = THETA(4)* EXP(ETA(2))
+ V3 = THETA(5)* EXP(ETA(3))
  Q  = THETA(6)* EXP(ETA(4))
 
  F1 = THETA(7)*EXP(ETA(5))
- ALAG1 = THETA(8)*EXP(ETA(6))
- D1 = THETA(9)*EXP(ETA(7))
- 
- IF(SECOND.EQ.1) THEN
- ALAG1 = THETA(10)*EXP(ETA(8)) 
- F1 = 1 - THETA(7)*EXP(ETA(5))
- D1 = THETA(11)*EXP(ETA(9))
- ENDIF
+ KA = THETA(8)*EXP(ETA(6))
  
 ;---- PK PARAMETER RELATIONSHIP ----
- S1   = V1
+ S2   = V2
 
  
 $ERROR
 
- IPRED  = A(1)/S1
+ IPRED  = A(2)/S2
  W      = SQRT(THETA(1)**2 + THETA(2)**2 * IPRED**2)
  IRES   = DV - IPRED
  IWRES  = IRES / W
@@ -40,15 +32,13 @@ $THETA
  ; Error model
  0.0001 FIX
  0.5
- (0, 100) ; (3) CL (mL/hr)
- (0, 1000)  ; (4) VC (mL)
+ (0, 10) ; (3) CL (mL/hr)
+ (0, 100)  ; (4) VC (mL)
  (0, 1000)  ; (5) VP (mL)
  (0, 50)  ; (6) Q (mL/hr)
- (0, 0.5) ; (7) F2
- (0, 1) ; (8) ALAG2(first)
- (0, 0.1); (9) D2 (first)
- (0, 8) ; (10) ALAG2(second)
- (0, 1) ; (11) D2 (second)
+ (0, 0.5) ; (7) F1
+ (0, 1) ; (8) KA(first)
+
  
 $OMEGA
  0 FIX
@@ -57,15 +47,13 @@ $OMEGA
  0 FIX
  0 FIX
  0 FIX
- 0 FIX
-0 FIX
- 0 FIX
+ 
 $SIGMA
  1 FIX
 
-$ESTIMATION NOABORT MAXEVAL=9999 METHOD=1 PRINT=10 SIGDIGITS=3
+$ESTIMATION NOABORT MAXEVAL=9999 METHOD=0 PRINT=10 SIGDIGITS=3
 
-$TABLE ID TIME AMT CMT DV MDV IPRED CWRES IWRES  ONEHEADER NOPRINT  FILE = sdtab100
+$TABLE ID TIME AMT CMT DV MDV IPRED CWRES IWRES ROUTE ONEHEADER NOPRINT  FILE = sdtab100
   
 NM-TRAN MESSAGES 
   
@@ -75,8 +63,8 @@ NM-TRAN MESSAGES
   
 License Registered to: Qfitter Inc
 Expiration Date:    14 MAY 2021
-Current Date:       16 NOV 2020
-Days until program expires : 183
+Current Date:       20 NOV 2020
+Days until program expires : 179
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -88,25 +76,25 @@ Days until program expires : 183
 0DATA CHECKOUT RUN:              NO
  DATA SET LOCATED ON UNIT NO.:    2
  THIS UNIT TO BE REWOUND:        NO
- NO. OF DATA RECS IN DATA SET:      186
- NO. OF DATA ITEMS IN DATA SET:  19
+ NO. OF DATA RECS IN DATA SET:      549
+ NO. OF DATA ITEMS IN DATA SET:  17
  ID DATA ITEM IS DATA ITEM NO.:   1
  DEP VARIABLE IS DATA ITEM NO.:   4
  MDV DATA ITEM IS DATA ITEM NO.:  5
 0INDICES PASSED TO SUBROUTINE PRED:
-  19   2   3  18   0   8   6   0   0   0   7
+  17   2   3   0   0   7  16   0   0   0   6
 0LABELS FOR DATA ITEMS:
- ID TIME AMT DV MDV CMT ADDL II SPECIES DOSE ROUTE FORMULATION TAD BQL WT LVW SECOND RATE EVID
+ ID TIME AMT DV MDV ADDL II SPECIES DOSE ROUTE FORMULATION TAD BQL WT LVW CMT EVID
 0(NONBLANK) LABELS FOR PRED-DEFINED ITEMS:
  IPRED IWRES
 0FORMAT FOR DATA:
- (E3.0,E6.0,E7.0,E8.0,5E2.0,E3.0,2E2.0,E6.0,E2.0,E6.0,E7.0,2E3.0,1F2.0)
+ (E4.0,E6.0,E9.0,E8.0,4E2.0,E3.0,2E2.0,E6.0,E2.0,E6.0,E7.0,E2.0,1F2.0)
 
- TOT. NO. OF OBS RECS:       62
- TOT. NO. OF INDIVIDUALS:       62
-0LENGTH OF THETA:  11
+ TOT. NO. OF OBS RECS:      344
+ TOT. NO. OF INDIVIDUALS:      204
+0LENGTH OF THETA:   8
 0DEFAULT THETA BOUNDARY TEST OMITTED:    NO
-0OMEGA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   9
+0OMEGA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   6
 0DEFAULT OMEGA BOUNDARY TEST OMITTED:    NO
 0SIGMA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   1
 0DEFAULT SIGMA BOUNDARY TEST OMITTED:    NO
@@ -114,14 +102,11 @@ Days until program expires : 183
  LOWER BOUND    INITIAL EST    UPPER BOUND
   0.1000E-03     0.1000E-03     0.1000E-03
  -0.1000E+07     0.5000E+00     0.1000E+07
+  0.0000E+00     0.1000E+02     0.1000E+07
   0.0000E+00     0.1000E+03     0.1000E+07
-  0.0000E+00     0.1000E+04     0.1000E+07
   0.0000E+00     0.1000E+04     0.1000E+07
   0.0000E+00     0.5000E+02     0.1000E+07
   0.0000E+00     0.5000E+00     0.1000E+07
-  0.0000E+00     0.1000E+01     0.1000E+07
-  0.0000E+00     0.1000E+00     0.1000E+07
-  0.0000E+00     0.8000E+01     0.1000E+07
   0.0000E+00     0.1000E+01     0.1000E+07
 0INITIAL ESTIMATE OF OMEGA:
  0.0000E+00
@@ -130,9 +115,6 @@ Days until program expires : 183
  0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
  0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
  0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
- 0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
- 0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
- 0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
 0OMEGA CONSTRAINED TO BE THIS INITIAL ESTIMATE
 0INITIAL ESTIMATE OF SIGMA:
  0.1000E+01
@@ -154,42 +136,44 @@ Days until program expires : 183
  RFORMAT:
  FIXED_EFFECT_ETAS:
 0USER-CHOSEN ITEMS:
- ID TIME AMT CMT DV MDV IPRED CWRES IWRES
+ ID TIME AMT CMT DV MDV IPRED CWRES IWRES ROUTE
 1DOUBLE PRECISION PREDPP VERSION 7.4.1
 
- TWO COMPARTMENT MODEL (ADVAN3)
-0MAXIMUM NO. OF BASIC PK PARAMETERS:   4
+ TWO COMPARTMENT MODEL WITH FIRST-ORDER ABSORPTION (ADVAN4)
+0MAXIMUM NO. OF BASIC PK PARAMETERS:   5
 0BASIC PK PARAMETERS (AFTER TRANSLATION):
    BASIC PK PARAMETER NO.  1: ELIMINATION RATE (K)
-   BASIC PK PARAMETER NO.  2: CENTRAL-TO-PERIPH. RATE (K12)
-   BASIC PK PARAMETER NO.  3: PERIPH.-TO-CENTRAL RATE (K21)
+   BASIC PK PARAMETER NO.  2: CENTRAL-TO-PERIPH. RATE (K23)
+   BASIC PK PARAMETER NO.  3: PERIPH.-TO-CENTRAL RATE (K32)
+   BASIC PK PARAMETER NO.  5: ABSORPTION RATE (KA)
  TRANSLATOR WILL CONVERT PARAMETERS
- CL, V1, Q, V2 TO K, K12, K21 (TRANS4)
+ CL, V2, Q, V3 TO K, K23, K32 (TRANS4)
 0COMPARTMENT ATTRIBUTES
  COMPT. NO.   FUNCTION   INITIAL    ON/OFF      DOSE      DEFAULT    DEFAULT
                          STATUS     ALLOWED    ALLOWED    FOR DOSE   FOR OBS.
-    1         CENTRAL      ON         NO         YES        YES        YES
-    2         PERIPH.      ON         NO         YES        NO         NO
-    3         OUTPUT       OFF        YES        NO         NO         NO
+    1         DEPOT        OFF        YES        YES        YES        NO
+    2         CENTRAL      ON         NO         YES        NO         YES
+    3         PERIPH.      ON         NO         YES        NO         NO
+    4         OUTPUT       OFF        YES        NO         NO         NO
 1
  ADDITIONAL PK PARAMETERS - ASSIGNMENT OF ROWS IN GG
  COMPT. NO.                             INDICES
               SCALE      BIOAVAIL.   ZERO-ORDER  ZERO-ORDER  ABSORB
                          FRACTION    RATE        DURATION    LAG
-    1            8           5           *           7           6
-    2            *           *           *           *           *
-    3            *           -           -           -           -
+    1            *           6           *           *           *
+    2            7           *           *           *           *
+    3            *           *           *           *           *
+    4            *           -           -           -           -
              - PARAMETER IS NOT ALLOWED FOR THIS MODEL
              * PARAMETER IS NOT SUPPLIED BY PK SUBROUTINE;
                WILL DEFAULT TO ONE IF APPLICABLE
 0DATA ITEM INDICES USED BY PRED ARE:
-   EVENT ID DATA ITEM IS DATA ITEM NO.:     19
+   EVENT ID DATA ITEM IS DATA ITEM NO.:     17
    TIME DATA ITEM IS DATA ITEM NO.:          2
    DOSE AMOUNT DATA ITEM IS DATA ITEM NO.:   3
-   DOSE RATE DATA ITEM IS DATA ITEM NO.:    18
-   INTERVAL DATA ITEM IS DATA ITEM NO.:      8
-   ADDL. DOSES DATA ITEM IS DATA ITEM NO.:   7
-   COMPT. NO. DATA ITEM IS DATA ITEM NO.:    6
+   INTERVAL DATA ITEM IS DATA ITEM NO.:      7
+   ADDL. DOSES DATA ITEM IS DATA ITEM NO.:   6
+   COMPT. NO. DATA ITEM IS DATA ITEM NO.:   16
 
 0PK SUBROUTINE CALLED WITH EVERY EVENT RECORD.
  PK SUBROUTINE NOT CALLED AT NONEVENT (ADDITIONAL OR LAGGED) DOSE TIMES.
@@ -199,16 +183,13 @@ Days until program expires : 183
 
 
  #TBLN:      1
- #METH: First Order Conditional Estimation
+ #METH: First Order
 
  ESTIMATION STEP OMITTED:                 NO
  ANALYSIS TYPE:                           POPULATION
  NUMBER OF SADDLE POINT RESET ITERATIONS:      0
  GRADIENT METHOD USED:               NOSLOW
- CONDITIONAL ESTIMATES USED:              YES
- CENTERED ETA:                            NO
  EPS-ETA INTERACTION:                     NO
- LAPLACIAN OBJ. FUNC.:                    NO
  NO. OF FUNCT. EVALS. ALLOWED:            9999
  NO. OF SIG. FIGURES REQUIRED:            3
  INTERMEDIATE PRINTOUT:                   YES
@@ -255,58 +236,46 @@ Days until program expires : 183
  MONITORING OF SEARCH:
 
 
-0ITERATION NO.:    0    OBJECTIVE VALUE:  3.480838651800980E+16    NO. OF FUNC. EVALS.:  12
- CUMULATIVE NO. OF FUNC. EVALS.:       12
- NPARAMETR:  5.0000E-01  1.0000E+02  1.0000E+03  1.0000E+03  5.0000E+01  5.0000E-01  1.0000E+00  1.0000E-01  8.0000E+00  1.0000E+00
+0ITERATION NO.:    0    OBJECTIVE VALUE:   461.662801339921        NO. OF FUNC. EVALS.:   8
+ CUMULATIVE NO. OF FUNC. EVALS.:        8
+ NPARAMETR:  5.0000E-01  1.0000E+01  1.0000E+02  1.0000E+03  5.0000E+01  5.0000E-01  1.0000E+00
+ PARAMETER:  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01
+ GRADIENT:  -1.1271E+04 -9.2111E+01  8.8027E+01 -1.3676E+02 -1.1439E+02  3.2445E+02  6.6012E+01
 
- PARAMETER:  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01
+0ITERATION NO.:   10    OBJECTIVE VALUE:  -732.057039297503        NO. OF FUNC. EVALS.:  98
+ CUMULATIVE NO. OF FUNC. EVALS.:      106
+ NPARAMETR:  1.9109E+00  2.5623E+02  7.4638E+01  1.5402E+03  1.2362E+03  1.6671E-01  3.6021E-01
+ PARAMETER:  3.8218E-01  3.3435E+00 -1.9252E-01  5.3189E-01  3.3078E+00 -9.9835E-01 -9.2107E-01
+ GRADIENT:   6.8326E+01 -7.4217E+01  9.0453E+00  7.6265E+01 -8.5372E+00  1.6472E+01  7.7215E+00
 
- GRADIENT:   0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  1.0128E+17  0.0000E+00 -8.0000E+04  0.0000E+00
+0ITERATION NO.:   20    OBJECTIVE VALUE:  -789.621189453021        NO. OF FUNC. EVALS.:  94
+ CUMULATIVE NO. OF FUNC. EVALS.:      200
+ NPARAMETR:  1.4179E+00  2.4602E+02  2.2922E+01  6.7244E+02  5.5591E+02  1.9348E-01  1.8983E-01
+ PARAMETER:  2.8358E-01  3.3028E+00 -1.3731E+00 -2.9685E-01  2.5086E+00 -8.4946E-01 -1.5616E+00
+ GRADIENT:   1.7631E+01  8.6183E+00  3.0442E+00 -9.2819E-01 -1.2019E+01 -5.2151E+00  7.7139E+00
 
-
-0ITERATION NO.:    3    OBJECTIVE VALUE:  3.476299421190001E+16    NO. OF FUNC. EVALS.:  97
- CUMULATIVE NO. OF FUNC. EVALS.:      109
- NPARAMETR:  5.0000E-01  1.0000E+02  1.0000E+03  1.0000E+03  5.0000E+01  5.0000E-01  5.4881E-01  1.0000E-01  8.0008E+00  1.0000E+00
-
- PARAMETER:  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01 -5.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01
-
- GRADIENT:   0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 -2.0000E+04  0.0000E+00
-
+0ITERATION NO.:   30    OBJECTIVE VALUE:  -790.897608792640        NO. OF FUNC. EVALS.: 103
+ CUMULATIVE NO. OF FUNC. EVALS.:      303
+ NPARAMETR:  1.3847E+00  2.5787E+02  2.8635E+01  7.4129E+02  7.0369E+02  2.1350E-01  1.9906E-01
+ PARAMETER:  2.7694E-01  3.3499E+00 -1.1505E+00 -1.9936E-01  2.7443E+00 -7.5095E-01 -1.5142E+00
+ GRADIENT:  -9.8693E-02  8.1395E-02  4.3543E-03 -1.1600E-01  6.9596E-02 -4.8303E-02 -6.1772E-02
 
  #TERM:
-0MINIMIZATION TERMINATED
- DUE TO ROUNDING ERRORS (ERROR=134)
- NO. OF FUNCTION EVALUATIONS USED:      109
- NO. OF SIG. DIGITS UNREPORTABLE
-
- ETABAR IS THE ARITHMETIC MEAN OF THE ETA-ESTIMATES,
- AND THE P-VALUE IS GIVEN FOR THE NULL HYPOTHESIS THAT THE TRUE MEAN IS 0.
-
- ETABAR:         0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00
- SE:             0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00
- N:                      62          62          62          62          62          62          62          62          62
-
- P VAL.:         1.0000E+00  1.0000E+00  1.0000E+00  1.0000E+00  1.0000E+00  1.0000E+00  1.0000E+00  1.0000E+00  1.0000E+00
-
- ETASHRINKSD(%)  1.0000E+02  1.0000E+02  1.0000E+02  1.0000E+02  1.0000E+02  1.0000E+02  1.0000E+02  1.0000E+02  1.0000E+02
- ETASHRINKVR(%)  1.0000E+02  1.0000E+02  1.0000E+02  1.0000E+02  1.0000E+02  1.0000E+02  1.0000E+02  1.0000E+02  1.0000E+02
- EBVSHRINKSD(%)  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00
- EBVSHRINKVR(%)  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00
- EPSSHRINKSD(%)  1.0000E-10
- EPSSHRINKVR(%)  1.0000E-10
-
+0MINIMIZATION SUCCESSFUL
+ NO. OF FUNCTION EVALUATIONS USED:      303
+ NO. OF SIG. DIGITS IN FINAL EST.:  3.5
   
- TOTAL DATA POINTS NORMALLY DISTRIBUTED (N):           62
- N*LOG(2PI) CONSTANT TO OBJECTIVE FUNCTION:    113.94837811737941     
- OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:    34762994211900012.     
- OBJECTIVE FUNCTION VALUE WITH CONSTANT:       34762994211900124.     
+ TOTAL DATA POINTS NORMALLY DISTRIBUTED (N):          344
+ N*LOG(2PI) CONSTANT TO OBJECTIVE FUNCTION:    632.22971084481480     
+ OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:   -790.89760879263986     
+ OBJECTIVE FUNCTION VALUE WITH CONSTANT:      -158.66789794782505     
  REPORTED OBJECTIVE FUNCTION DOES NOT CONTAIN CONSTANT
   
  TOTAL EFFECTIVE ETAS (NIND*NETA):                             0
   
  #TERE:
- Elapsed estimation  time in seconds:     0.06
- Elapsed postprocess time in seconds:     0.01
+ Elapsed estimation  time in seconds:     0.30
+ Elapsed postprocess time in seconds:     0.02
 1
  
  
@@ -330,7 +299,7 @@ Days until program expires : 183
  
  ************************************************************************************************************************
  ********************                                                                                ********************
- ********************                        FIRST ORDER CONDITIONAL ESTIMATION                      ********************
+ ********************                                   FIRST ORDER                                  ********************
  #OBJT:**************                       MINIMUM VALUE OF OBJECTIVE FUNCTION                      ********************
  ********************                                                                                ********************
  ************************************************************************************************************************
@@ -340,11 +309,11 @@ Days until program expires : 183
 
 
 
- #OBJV:*********************************************************       **************************************************
+ #OBJV:********************************************     -790.898       **************************************************
 1
  ************************************************************************************************************************
  ********************                                                                                ********************
- ********************                        FIRST ORDER CONDITIONAL ESTIMATION                      ********************
+ ********************                                   FIRST ORDER                                  ********************
  ********************                             FINAL PARAMETER ESTIMATE                           ********************
  ********************                                                                                ********************
  ************************************************************************************************************************
@@ -354,16 +323,16 @@ Days until program expires : 183
  THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
 
 
-         TH 1      TH 2      TH 3      TH 4      TH 5      TH 6      TH 7      TH 8      TH 9      TH10      TH11     
+         TH 1      TH 2      TH 3      TH 4      TH 5      TH 6      TH 7      TH 8     
  
-         1.00E-04  5.00E-01  1.00E+02  1.00E+03  1.00E+03  5.00E+01  5.00E-01  5.49E-01  1.00E-01  8.00E+00  1.00E+00
+         1.00E-04  1.38E+00  2.58E+02  2.86E+01  7.41E+02  7.04E+02  2.14E-01  1.99E-01
  
 
 
  OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
 
 
-         ETA1      ETA2      ETA3      ETA4      ETA5      ETA6      ETA7      ETA8      ETA9     
+         ETA1      ETA2      ETA3      ETA4      ETA5      ETA6     
  
  ETA1
 +        0.00E+00
@@ -382,15 +351,6 @@ Days until program expires : 183
  
  ETA6
 +        0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00
- 
- ETA7
-+        0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00
- 
- ETA8
-+        0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00
- 
- ETA9
-+        0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00
  
 
 
@@ -408,7 +368,7 @@ Days until program expires : 183
  OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
 
 
-         ETA1      ETA2      ETA3      ETA4      ETA5      ETA6      ETA7      ETA8      ETA9     
+         ETA1      ETA2      ETA3      ETA4      ETA5      ETA6     
  
  ETA1
 +        0.00E+00
@@ -428,15 +388,6 @@ Days until program expires : 183
  ETA6
 +        0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00
  
- ETA7
-+        0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00
- 
- ETA8
-+        0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00
- 
- ETA9
-+        0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00
- 
 
 
  SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
@@ -447,8 +398,8 @@ Days until program expires : 183
  EPS1
 +        1.00E+00
  
- Elapsed finaloutput time in seconds:     0.02
- #CPUT: Total CPU Time in Seconds,        0.141
+ Elapsed finaloutput time in seconds:     0.08
+ #CPUT: Total CPU Time in Seconds,        0.500
 Stop Time: 
-2020-11-16 
-오후 09:07
+2020-11-20 
+오후 06:42

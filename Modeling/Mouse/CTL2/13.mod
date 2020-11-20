@@ -1,6 +1,6 @@
 $PROB Mouse_liver_2comp
 $INPUT ID TIME AMT DV MDV CMT ADDL II SPECIES DOSE ROUTE FORMULATION TAD BQL WT LVW
-$DATA  ..//Plasma_individual2.csv IGNORE=@
+$DATA  ..//Plasma_individual4.csv IGNORE=@
 
 $SUBROUTINE ADVAN6 TOL=2
 

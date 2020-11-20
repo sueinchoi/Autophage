@@ -5,39 +5,31 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://namespaces.oreilly.com/xmlnut/address output.xsd"
 xmlns:nm="http://namespaces.oreilly.com/xmlnut/address"
 >
-<nm:start_datetime>2020-11-16T21:07:19.193</nm:start_datetime>
+<nm:start_datetime>2020-11-20T18:42:51.020</nm:start_datetime>
 <nm:control_stream><![CDATA[
 $PROB Mouse_liver_2comp
-$INPUT ID TIME AMT DV MDV CMT ADDL II SPECIES DOSE ROUTE FORMULATION TAD BQL WT LVW SECOND RATE
-$DATA  ..//Plasma_individual_dual_iv.csv IGNORE=@
-$SUBROUTINE ADVAN3 TRANS4
+$INPUT ID TIME AMT DV MDV SKIP ADDL II SPECIES DOSE ROUTE FORMULATION TAD BQL WT LVW CMT SKIP
+$DATA  ..//Plasma_individual4_only.csv IGNORE=@
+$SUBROUTINE ADVAN4 TRANS4
 
 $PK
  ;---- PK FIXED EFFECT ----
-
  ;Distribution
  CL = THETA(3)* EXP(ETA(1))
- V1 = THETA(4)* EXP(ETA(2))
- V2 = THETA(5)* EXP(ETA(3))
+ V2 = THETA(4)* EXP(ETA(2))
+ V3 = THETA(5)* EXP(ETA(3))
  Q  = THETA(6)* EXP(ETA(4))
 
  F1 = THETA(7)*EXP(ETA(5))
- ALAG1 = THETA(8)*EXP(ETA(6))
- D1 = THETA(9)*EXP(ETA(7))
-
- IF(SECOND.EQ.1) THEN
- ALAG1 = THETA(10)*EXP(ETA(8))
- F1 = 1 - THETA(7)*EXP(ETA(5))
- D1 = THETA(11)*EXP(ETA(9))
- ENDIF
+ KA = THETA(8)*EXP(ETA(6))
 
 ;---- PK PARAMETER RELATIONSHIP ----
- S1   = V1
+ S2   = V2
 
 
 $ERROR
 
- IPRED  = A(1)/S1
+ IPRED  = A(2)/S2
  W      = SQRT(THETA(1)**2 + THETA(2)**2 * IPRED**2)
  IRES   = DV - IPRED
  IWRES  = IRES / W
@@ -47,15 +39,13 @@ $THETA
  ; Error model
  0.0001 FIX
  0.5
- (0, 100) ; (3) CL (mL/hr)
- (0, 1000)  ; (4) VC (mL)
+ (0, 10) ; (3) CL (mL/hr)
+ (0, 100)  ; (4) VC (mL)
  (0, 1000)  ; (5) VP (mL)
  (0, 50)  ; (6) Q (mL/hr)
- (0, 0.5) ; (7) F2
- (0, 1) ; (8) ALAG2(first)
- (0, 0.1); (9) D2 (first)
- (0, 8) ; (10) ALAG2(second)
- (0, 1) ; (11) D2 (second)
+ (0, 0.5) ; (7) F1
+ (0, 1) ; (8) KA(first)
+
 
 $OMEGA
  0 FIX
@@ -64,15 +54,13 @@ $OMEGA
  0 FIX
  0 FIX
  0 FIX
- 0 FIX
-0 FIX
- 0 FIX
+
 $SIGMA
  1 FIX
 
-$ESTIMATION NOABORT MAXEVAL=9999 METHOD=1 PRINT=10 SIGDIGITS=3
+$ESTIMATION NOABORT MAXEVAL=9999 METHOD=0 PRINT=10 SIGDIGITS=3
 
-$TABLE ID TIME AMT CMT DV MDV IPRED CWRES IWRES  ONEHEADER NOPRINT  FILE = sdtab100
+$TABLE ID TIME AMT CMT DV MDV IPRED CWRES IWRES ROUTE ONEHEADER NOPRINT  FILE = sdtab100
 ]]></nm:control_stream>
 <nm:nmtran><![CDATA[
 
@@ -84,8 +72,8 @@ $TABLE ID TIME AMT CMT DV MDV IPRED CWRES IWRES  ONEHEADER NOPRINT  FILE = sdtab
 <nm:license_information><![CDATA[
 License Registered to: Qfitter Inc
 Expiration Date:    14 MAY 2021
-Current Date:       16 NOV 2020
-Days until program expires : 183
+Current Date:       20 NOV 2020
+Days until program expires : 179
 ]]></nm:license_information>
 <nm:program_information><![CDATA[
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.1
@@ -103,25 +91,25 @@ Days until program expires : 183
 0DATA CHECKOUT RUN:              NO
  DATA SET LOCATED ON UNIT NO.:    2
  THIS UNIT TO BE REWOUND:        NO
- NO. OF DATA RECS IN DATA SET:      186
- NO. OF DATA ITEMS IN DATA SET:  19
+ NO. OF DATA RECS IN DATA SET:      549
+ NO. OF DATA ITEMS IN DATA SET:  17
  ID DATA ITEM IS DATA ITEM NO.:   1
  DEP VARIABLE IS DATA ITEM NO.:   4
  MDV DATA ITEM IS DATA ITEM NO.:  5
 0INDICES PASSED TO SUBROUTINE PRED:
-  19   2   3  18   0   8   6   0   0   0   7
+  17   2   3   0   0   7  16   0   0   0   6
 0LABELS FOR DATA ITEMS:
- ID TIME AMT DV MDV CMT ADDL II SPECIES DOSE ROUTE FORMULATION TAD BQL WT LVW SECOND RATE EVID
+ ID TIME AMT DV MDV ADDL II SPECIES DOSE ROUTE FORMULATION TAD BQL WT LVW CMT EVID
 0(NONBLANK) LABELS FOR PRED-DEFINED ITEMS:
  IPRED IWRES
 0FORMAT FOR DATA:
- (E3.0,E6.0,E7.0,E8.0,5E2.0,E3.0,2E2.0,E6.0,E2.0,E6.0,E7.0,2E3.0,1F2.0)
+ (E4.0,E6.0,E9.0,E8.0,4E2.0,E3.0,2E2.0,E6.0,E2.0,E6.0,E7.0,E2.0,1F2.0)
 
- TOT. NO. OF OBS RECS:       62
- TOT. NO. OF INDIVIDUALS:       62
-0LENGTH OF THETA:  11
+ TOT. NO. OF OBS RECS:      344
+ TOT. NO. OF INDIVIDUALS:      204
+0LENGTH OF THETA:   8
 0DEFAULT THETA BOUNDARY TEST OMITTED:    NO
-0OMEGA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   9
+0OMEGA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   6
 0DEFAULT OMEGA BOUNDARY TEST OMITTED:    NO
 0SIGMA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   1
 0DEFAULT SIGMA BOUNDARY TEST OMITTED:    NO
@@ -129,14 +117,11 @@ Days until program expires : 183
  LOWER BOUND    INITIAL EST    UPPER BOUND
   0.1000E-03     0.1000E-03     0.1000E-03
  -0.1000E+07     0.5000E+00     0.1000E+07
+  0.0000E+00     0.1000E+02     0.1000E+07
   0.0000E+00     0.1000E+03     0.1000E+07
-  0.0000E+00     0.1000E+04     0.1000E+07
   0.0000E+00     0.1000E+04     0.1000E+07
   0.0000E+00     0.5000E+02     0.1000E+07
   0.0000E+00     0.5000E+00     0.1000E+07
-  0.0000E+00     0.1000E+01     0.1000E+07
-  0.0000E+00     0.1000E+00     0.1000E+07
-  0.0000E+00     0.8000E+01     0.1000E+07
   0.0000E+00     0.1000E+01     0.1000E+07
 0INITIAL ESTIMATE OF OMEGA:
  0.0000E+00
@@ -145,9 +130,6 @@ Days until program expires : 183
  0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
  0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
  0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
- 0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
- 0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
- 0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
 0OMEGA CONSTRAINED TO BE THIS INITIAL ESTIMATE
 0INITIAL ESTIMATE OF SIGMA:
  0.1000E+01
@@ -169,42 +151,44 @@ Days until program expires : 183
  RFORMAT:
  FIXED_EFFECT_ETAS:
 0USER-CHOSEN ITEMS:
- ID TIME AMT CMT DV MDV IPRED CWRES IWRES
+ ID TIME AMT CMT DV MDV IPRED CWRES IWRES ROUTE
 1DOUBLE PRECISION PREDPP VERSION 7.4.1
 
- TWO COMPARTMENT MODEL (ADVAN3)
-0MAXIMUM NO. OF BASIC PK PARAMETERS:   4
+ TWO COMPARTMENT MODEL WITH FIRST-ORDER ABSORPTION (ADVAN4)
+0MAXIMUM NO. OF BASIC PK PARAMETERS:   5
 0BASIC PK PARAMETERS (AFTER TRANSLATION):
    BASIC PK PARAMETER NO.  1: ELIMINATION RATE (K)
-   BASIC PK PARAMETER NO.  2: CENTRAL-TO-PERIPH. RATE (K12)
-   BASIC PK PARAMETER NO.  3: PERIPH.-TO-CENTRAL RATE (K21)
+   BASIC PK PARAMETER NO.  2: CENTRAL-TO-PERIPH. RATE (K23)
+   BASIC PK PARAMETER NO.  3: PERIPH.-TO-CENTRAL RATE (K32)
+   BASIC PK PARAMETER NO.  5: ABSORPTION RATE (KA)
  TRANSLATOR WILL CONVERT PARAMETERS
- CL, V1, Q, V2 TO K, K12, K21 (TRANS4)
+ CL, V2, Q, V3 TO K, K23, K32 (TRANS4)
 0COMPARTMENT ATTRIBUTES
  COMPT. NO.   FUNCTION   INITIAL    ON/OFF      DOSE      DEFAULT    DEFAULT
                          STATUS     ALLOWED    ALLOWED    FOR DOSE   FOR OBS.
-    1         CENTRAL      ON         NO         YES        YES        YES
-    2         PERIPH.      ON         NO         YES        NO         NO
-    3         OUTPUT       OFF        YES        NO         NO         NO
+    1         DEPOT        OFF        YES        YES        YES        NO
+    2         CENTRAL      ON         NO         YES        NO         YES
+    3         PERIPH.      ON         NO         YES        NO         NO
+    4         OUTPUT       OFF        YES        NO         NO         NO
 1
  ADDITIONAL PK PARAMETERS - ASSIGNMENT OF ROWS IN GG
  COMPT. NO.                             INDICES
               SCALE      BIOAVAIL.   ZERO-ORDER  ZERO-ORDER  ABSORB
                          FRACTION    RATE        DURATION    LAG
-    1            8           5           *           7           6
-    2            *           *           *           *           *
-    3            *           -           -           -           -
+    1            *           6           *           *           *
+    2            7           *           *           *           *
+    3            *           *           *           *           *
+    4            *           -           -           -           -
              - PARAMETER IS NOT ALLOWED FOR THIS MODEL
              * PARAMETER IS NOT SUPPLIED BY PK SUBROUTINE;
                WILL DEFAULT TO ONE IF APPLICABLE
 0DATA ITEM INDICES USED BY PRED ARE:
-   EVENT ID DATA ITEM IS DATA ITEM NO.:     19
+   EVENT ID DATA ITEM IS DATA ITEM NO.:     17
    TIME DATA ITEM IS DATA ITEM NO.:          2
    DOSE AMOUNT DATA ITEM IS DATA ITEM NO.:   3
-   DOSE RATE DATA ITEM IS DATA ITEM NO.:    18
-   INTERVAL DATA ITEM IS DATA ITEM NO.:      8
-   ADDL. DOSES DATA ITEM IS DATA ITEM NO.:   7
-   COMPT. NO. DATA ITEM IS DATA ITEM NO.:    6
+   INTERVAL DATA ITEM IS DATA ITEM NO.:      7
+   ADDL. DOSES DATA ITEM IS DATA ITEM NO.:   6
+   COMPT. NO. DATA ITEM IS DATA ITEM NO.:   16
 
 0PK SUBROUTINE CALLED WITH EVERY EVENT RECORD.
  PK SUBROUTINE NOT CALLED AT NONEVENT (ADDITIONAL OR LAGGED) DOSE TIMES.
@@ -212,29 +196,26 @@ Days until program expires : 183
 0ERROR SUBROUTINE INDICATES THAT DERIVATIVES OF COMPARTMENT AMOUNTS ARE USED.
 ]]></nm:problem_information>
 <nm:problem_options
- nm:data_checkout_run='no' nm:data_unit='2' nm:data_rewind='no' nm:data_nrec='186' nm:data_nitems='19' nm:data_id='1'
+ nm:data_checkout_run='no' nm:data_unit='2' nm:data_rewind='no' nm:data_nrec='549' nm:data_nitems='17' nm:data_id='1'
  nm:data_l2='0' nm:data_dv='4' nm:data_mdv='5' nm:data_mrg='0' nm:data_raw='0' nm:data_rpt='0' nm:data_sub_array1='0'
- nm:data_sub_array2='0' nm:data_sub_array3='0' nm:data_pred_indices='19,2,3,18,0,8,6,0,0,0,7'
- nm:data_format='(e3.0,e6.0,e7.0,e8.0,5e2.0,e3.0,2e2.0,e6.0,e2.0,e6.0,e7.0,2e3.0,1f2.0)' nm:data_nobs='62'
- nm:data_nind='62' nm:data_mdv100='0' nm:nthetat='11' nm:theta_bound_test_omitted='no' nm:omega_diagdim='9'
+ nm:data_sub_array2='0' nm:data_sub_array3='0' nm:data_pred_indices='17,2,3,0,0,7,16,0,0,0,6'
+ nm:data_format='(e4.0,e6.0,e9.0,e8.0,4e2.0,e3.0,2e2.0,e6.0,e2.0,e6.0,e7.0,e2.0,1f2.0)' nm:data_nobs='344'
+ nm:data_nind='204' nm:data_mdv100='0' nm:nthetat='8' nm:theta_bound_test_omitted='no' nm:omega_diagdim='6'
  nm:omega_bound_test_omitted='no' nm:sigma_diagdim='1' nm:sigma_bound_test_omitted='no' nm:tab_omitted='no'
  nm:tab_number='1' nm:tab_seed='11456' nm:tab_ranmethod='3u' nm:tab_esample='300' nm:tab_wres='eigenvalue'
- nm:tab_fixedetas_01='BLANK' nm:pred_advan='3' nm:pred_evid='19' nm:pred_time='2' nm:pred_amt='3' nm:pred_rate='18'
- nm:pred_ii='8' nm:pred_addl='7' nm:pred_cmt='6'
+ nm:tab_fixedetas_01='BLANK' nm:pred_advan='4' nm:pred_evid='17' nm:pred_time='2' nm:pred_amt='3' nm:pred_ii='7'
+ nm:pred_addl='6' nm:pred_cmt='16'
 />
 <nm:estimation nm:number='1' nm:type='0'>
 <nm:table_series>1</nm:table_series>
-<nm:estimation_method>foce</nm:estimation_method>
-<nm:estimation_title>First Order Conditional Estimation</nm:estimation_title>
+<nm:estimation_method>fo</nm:estimation_method>
+<nm:estimation_title>First Order</nm:estimation_title>
 <nm:estimation_information><![CDATA[
  ESTIMATION STEP OMITTED:                 NO
  ANALYSIS TYPE:                           POPULATION
  NUMBER OF SADDLE POINT RESET ITERATIONS:      0
  GRADIENT METHOD USED:               NOSLOW
- CONDITIONAL ESTIMATES USED:              YES
- CENTERED ETA:                            NO
  EPS-ETA INTERACTION:                     NO
- LAPLACIAN OBJ. FUNC.:                    NO
  NO. OF FUNCT. EVALS. ALLOWED:            9999
  NO. OF SIG. FIGURES REQUIRED:            3
  INTERMEDIATE PRINTOUT:                   YES
@@ -272,159 +253,41 @@ Days until program expires : 183
 ]]></nm:estimation_information>
 <nm:estimation_options
  nm:estim_omitted='no' nm:analysis_type='pop' nm:saddle_reset='0' nm:saddle_hess='0' nm:slow_gradient='noslow'
- nm:cond_estim='yes' nm:centered_eta='no' nm:epseta_interaction='no' nm:laplace='no' nm:predflag='0' nm:maxfn='9999'
- nm:nsig='3' nm:msfo='no' nm:abort='no' nm:objsort='no' nm:numder='0' nm:optmap='0' nm:etader='0' nm:mceta='0' nm:siglo='100'
- nm:sigl='100' nm:noprior='0' nm:nocov='0' nm:dercont='0' nm:atol='0' nm:fnleta='1' nm:etastype='0' nm:noninfeta='0'
- nm:file='1.ext' nm:notitle='0' nm:nolabel='0' nm:format='s1pe12.5' nm:order='tsol' nm:wishtype='0' nm:knuthsumoff='0'
- nm:lntwopi='0' nm:priorc='0' nm:olntwopi='0' nm:ctype='0'
+ nm:epseta_interaction='no' nm:predflag='0' nm:maxfn='9999' nm:nsig='3' nm:msfo='no' nm:abort='no' nm:objsort='no'
+ nm:numder='0' nm:optmap='0' nm:etader='0' nm:mceta='0' nm:siglo='100' nm:sigl='100' nm:noprior='0' nm:nocov='0' nm:dercont='0'
+ nm:atol='0' nm:fnleta='1' nm:etastype='0' nm:noninfeta='0' nm:file='1.ext' nm:notitle='0' nm:nolabel='0'
+ nm:format='s1pe12.5' nm:order='tsol' nm:wishtype='0' nm:knuthsumoff='0' nm:lntwopi='0' nm:priorc='0' nm:olntwopi='0'
+ nm:ctype='0'
 />
 <nm:monitor>
-<nm:obj nm:iteration='0'>34808386518009804.</nm:obj>
-<nm:obj nm:iteration='3'>34762994211900012.</nm:obj>
+<nm:obj nm:iteration='0'>461.66280133992063</nm:obj>
+<nm:obj nm:iteration='10'>-732.05703929750280</nm:obj>
+<nm:obj nm:iteration='20'>-789.62118945302063</nm:obj>
+<nm:obj nm:iteration='30'>-790.89760879263986</nm:obj>
 </nm:monitor>
-<nm:termination_status>134</nm:termination_status>
-<nm:termination_nfuncevals>109</nm:termination_nfuncevals>
-<nm:termination_sigdigits>0.0000000000000000</nm:termination_sigdigits>
+<nm:termination_status>0</nm:termination_status>
+<nm:termination_nfuncevals>303</nm:termination_nfuncevals>
+<nm:termination_sigdigits>3.4666366202092207</nm:termination_sigdigits>
 <nm:termination_information><![CDATA[
-0MINIMIZATION TERMINATED
- DUE TO ROUNDING ERRORS (ERROR=134)
- NO. OF FUNCTION EVALUATIONS USED:      109
- NO. OF SIG. DIGITS UNREPORTABLE
+0MINIMIZATION SUCCESSFUL
+ NO. OF FUNCTION EVALUATIONS USED:      303
+ NO. OF SIG. DIGITS IN FINAL EST.:  3.5
 ]]></nm:termination_information>
 <nm:termination_txtmsg>
-<nm:val nm:name='1'>50</nm:val>
-<nm:val nm:name='2'>54</nm:val>
-<nm:val nm:name='3'>39</nm:val>
+<nm:val nm:name='1'>37</nm:val>
 </nm:termination_txtmsg>
-<nm:etabar>
-<nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA5'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA6'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA7'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA8'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA9'>0.0000000000000000</nm:col>
-</nm:row>
-</nm:etabar>
-<nm:etabarse>
-<nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA5'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA6'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA7'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA8'>0.0000000000000000</nm:col>
-<nm:col nm:cname='ETA9'>0.0000000000000000</nm:col>
-</nm:row>
-</nm:etabarse>
-<nm:etabarn>
-<nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>62</nm:col>
-<nm:col nm:cname='ETA2'>62</nm:col>
-<nm:col nm:cname='ETA3'>62</nm:col>
-<nm:col nm:cname='ETA4'>62</nm:col>
-<nm:col nm:cname='ETA5'>62</nm:col>
-<nm:col nm:cname='ETA6'>62</nm:col>
-<nm:col nm:cname='ETA7'>62</nm:col>
-<nm:col nm:cname='ETA8'>62</nm:col>
-<nm:col nm:cname='ETA9'>62</nm:col>
-</nm:row>
-</nm:etabarn>
-<nm:etabarpval>
-<nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>1.0000000000000000</nm:col>
-<nm:col nm:cname='ETA2'>1.0000000000000000</nm:col>
-<nm:col nm:cname='ETA3'>1.0000000000000000</nm:col>
-<nm:col nm:cname='ETA4'>1.0000000000000000</nm:col>
-<nm:col nm:cname='ETA5'>1.0000000000000000</nm:col>
-<nm:col nm:cname='ETA6'>1.0000000000000000</nm:col>
-<nm:col nm:cname='ETA7'>1.0000000000000000</nm:col>
-<nm:col nm:cname='ETA8'>1.0000000000000000</nm:col>
-<nm:col nm:cname='ETA9'>1.0000000000000000</nm:col>
-</nm:row>
-</nm:etabarpval>
-<nm:etashrinksd>
-<nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA2'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA3'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA4'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA5'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA6'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA7'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA8'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA9'>100.00000000000000</nm:col>
-</nm:row>
-</nm:etashrinksd>
-<nm:etashrinkvr>
-<nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='ETA1'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA2'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA3'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA4'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA5'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA6'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA7'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA8'>100.00000000000000</nm:col>
-<nm:col nm:cname='ETA9'>100.00000000000000</nm:col>
-</nm:row>
-</nm:etashrinkvr>
-<nm:ebvshrinksd>
-<nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='EBV1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV5'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV6'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV7'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV8'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV9'>0.0000000000000000</nm:col>
-</nm:row>
-</nm:ebvshrinksd>
-<nm:ebvshrinkvr>
-<nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='EBV1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV5'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV6'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV7'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV8'>0.0000000000000000</nm:col>
-<nm:col nm:cname='EBV9'>0.0000000000000000</nm:col>
-</nm:row>
-</nm:ebvshrinkvr>
-<nm:epsshrinksd>
-<nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='EPS1'>1.00000000000000004E-010</nm:col>
-</nm:row>
-</nm:epsshrinksd>
-<nm:epsshrinkvr>
-<nm:row nm:rname='SUBPOP1'>
-<nm:col nm:cname='EPS1'>1.00000000000000004E-010</nm:col>
-</nm:row>
-</nm:epsshrinkvr>
-<nm:estimation_elapsed_time>0.06</nm:estimation_elapsed_time>
+<nm:estimation_elapsed_time>0.30</nm:estimation_elapsed_time>
 <nm:final_objective_function_text>MINIMUM VALUE OF OBJECTIVE FUNCTION</nm:final_objective_function_text>
-<nm:final_objective_function>34762994211900012.</nm:final_objective_function>
+<nm:final_objective_function>-790.89760879263986</nm:final_objective_function>
 <nm:theta>
 <nm:val nm:name='1'>1.00000000000000005E-004</nm:val>
-<nm:val nm:name='2'>0.50000000000000000</nm:val>
-<nm:val nm:name='3'>100.00000000000000</nm:val>
-<nm:val nm:name='4'>999.99999999999989</nm:val>
-<nm:val nm:name='5'>999.99999999999989</nm:val>
-<nm:val nm:name='6'>50.000000000000000</nm:val>
-<nm:val nm:name='7'>0.50000000000000000</nm:val>
-<nm:val nm:name='8'>0.54881163609402628</nm:val>
-<nm:val nm:name='9'>0.10000000000000001</nm:val>
-<nm:val nm:name='10'>8.0000000000037907</nm:val>
-<nm:val nm:name='11'>1.0000000000000000</nm:val>
+<nm:val nm:name='2'>1.3846940041806863</nm:val>
+<nm:val nm:name='3'>257.87257956628929</nm:val>
+<nm:val nm:name='4'>28.635226023902018</nm:val>
+<nm:val nm:name='5'>741.29474033035513</nm:val>
+<nm:val nm:name='6'>703.69067669747096</nm:val>
+<nm:val nm:name='7'>0.21350366203237622</nm:val>
+<nm:val nm:name='8'>0.19905928287339836</nm:val>
 </nm:theta>
 <nm:omega>
 <nm:row nm:rname='1'>
@@ -459,36 +322,6 @@ Days until program expires : 183
 <nm:col nm:cname='4'>0.0000000000000000</nm:col>
 <nm:col nm:cname='5'>0.0000000000000000</nm:col>
 <nm:col nm:cname='6'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='7'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='5'>0.0000000000000000</nm:col>
-<nm:col nm:cname='6'>0.0000000000000000</nm:col>
-<nm:col nm:cname='7'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='8'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='5'>0.0000000000000000</nm:col>
-<nm:col nm:cname='6'>0.0000000000000000</nm:col>
-<nm:col nm:cname='7'>0.0000000000000000</nm:col>
-<nm:col nm:cname='8'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='9'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='5'>0.0000000000000000</nm:col>
-<nm:col nm:cname='6'>0.0000000000000000</nm:col>
-<nm:col nm:cname='7'>0.0000000000000000</nm:col>
-<nm:col nm:cname='8'>0.0000000000000000</nm:col>
-<nm:col nm:cname='9'>0.0000000000000000</nm:col>
 </nm:row>
 </nm:omega>
 <nm:sigma>
@@ -530,36 +363,6 @@ Days until program expires : 183
 <nm:col nm:cname='5'>0.0000000000000000</nm:col>
 <nm:col nm:cname='6'>0.0000000000000000</nm:col>
 </nm:row>
-<nm:row nm:rname='7'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='5'>0.0000000000000000</nm:col>
-<nm:col nm:cname='6'>0.0000000000000000</nm:col>
-<nm:col nm:cname='7'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='8'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='5'>0.0000000000000000</nm:col>
-<nm:col nm:cname='6'>0.0000000000000000</nm:col>
-<nm:col nm:cname='7'>0.0000000000000000</nm:col>
-<nm:col nm:cname='8'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='9'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='5'>0.0000000000000000</nm:col>
-<nm:col nm:cname='6'>0.0000000000000000</nm:col>
-<nm:col nm:cname='7'>0.0000000000000000</nm:col>
-<nm:col nm:cname='8'>0.0000000000000000</nm:col>
-<nm:col nm:cname='9'>0.0000000000000000</nm:col>
-</nm:row>
 </nm:omegac>
 <nm:sigmac>
 <nm:row nm:rname='1'>
@@ -568,11 +371,11 @@ Days until program expires : 183
 </nm:sigmac>
 </nm:estimation>
 <nm:post_process_times>
-<nm:post_elapsed_time>0.01</nm:post_elapsed_time>
-<nm:finaloutput_elapsed_time>0.02</nm:finaloutput_elapsed_time>
+<nm:post_elapsed_time>0.02</nm:post_elapsed_time>
+<nm:finaloutput_elapsed_time>0.08</nm:finaloutput_elapsed_time>
 </nm:post_process_times>
 </nm:problem>
 </nm:nonmem>
-<nm:stop_datetime>2020-11-16T21:07:19.355</nm:stop_datetime>
-<nm:total_cputime>0.141</nm:total_cputime>
+<nm:stop_datetime>2020-11-20T18:42:51.553</nm:stop_datetime>
+<nm:total_cputime>0.500</nm:total_cputime>
 </nm:output>

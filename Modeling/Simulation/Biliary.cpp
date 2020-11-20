@@ -10,6 +10,7 @@ CLbile : 1000 : Biliary clearance(mL/h)
 CL : 0 : Clearance (mL/h)
 MTIME1 : 2.5 : First meal time
 MTIME2 : 9 : Second meal time
+MTIME3 : 12 : Third meal time
 Tbil : 0.25 : MM no (0) yes (1)
 Kp : 15 : Liver-plasma partition coefficient
 V_liv : 2.5 : Liver weight
@@ -38,8 +39,11 @@ double K30 = CLi / VCi;
 double CPi = CENT/VCi;
 
 double BILE = 0;
-if(self.tad() > MTIME1 &&  self.tad() < MTIME1 + Tbil )  BILE = 1;
-if(self.tad() > MTIME2 && self.tad() < MTIME2 + Tbil)  BILE = 1;
+if(Tbil == 0) BILE = 0;
+if(Tbil > 0 && self.tad() > MTIME1 && self.tad() < MTIME1 + Tbil)  BILE = 1;
+if(Tbil > 0 && self.tad() > MTIME2 && self.tad() < MTIME2 + Tbil)  BILE = 1;
+if(Tbil > 0 && self.tad() > MTIME3 && self.tad() < MTIME3 + Tbil)  BILE = 1;
+
 F_GUT = Fi;
 
 $OMEGA @name IIV @labels ECL EVC EVP EQ EKA EF
@@ -51,13 +55,24 @@ $SIGMA @labels ADD PROP
 
 
 $ODE
+
+if(Tbil > 0 ){
 dxdt_GUT = -KAi * GUT;
 dxdt_GUT2 = -KB * GUT2 + BILE * GB / Tbil;
-dxdt_LIV = KAi * GUT - Qh * LIV / V_liv / Kp - CLint * LIV / V_liv * fu + Qh * CENT / VCi - CLbile * LIV / V_liv;
+dxdt_LIV = KB * GUT2 + KAi * GUT - Qh * LIV / V_liv / Kp - CLint * LIV / V_liv * fu + Qh * CENT / VCi - CLbile * LIV / V_liv;
 dxdt_CENT = Qh * LIV / V_liv / Kp - K34 * CENT + K43*PERI - Qh * CENT / VCi - K30 * CENT;
 dxdt_PERI = K34 * CENT - K43 * PERI;
 dxdt_GB = CLbile *LIV / V_liv - BILE * GB / Tbil;
+}
 
+if(Tbil == 0){
+    dxdt_GUT = -KAi * GUT;
+    dxdt_GUT2 = -KB * GUT2;
+    dxdt_LIV = KB * GUT2 + KAi * GUT - Qh * LIV / V_liv / Kp - CLint * LIV / V_liv * fu + Qh * CENT / VCi - CLbile * LIV / V_liv;
+    dxdt_CENT = Qh * LIV / V_liv / Kp - K34 * CENT + K43*PERI - Qh * CENT / VCi - K30 * CENT;
+    dxdt_PERI = K34 * CENT - K43 * PERI;
+    dxdt_GB = CLbile *LIV / V_liv;
+}
 $TABLE
 
 capture CP = CENT/VCi*(1 + PROP) + ADD;
