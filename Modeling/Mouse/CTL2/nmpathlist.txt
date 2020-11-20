@@ -1,3 +1,5 @@
-The pathlist /usr/local/bin:/usr/bin obtained from file /Users/sueinchoi/nm743/nmloc is placed at the head of PATH
-The gfortran compiler at one of those locations will be used if it exists.
-If this is not what you want, then modify the file /Users/sueinchoi/nm743/nmloc accordingly.
+The pathlist C:\nm74g64\gfortran\mingw64\bin\ obtained from file c:\nm74g64\nmloc.bat is placed at the head of PATH 
+The gfortran compiler at one of those locations will be used if it exists. 
+If this is not what you want, then modify the file c:\nm74g64\nmloc.bat accordingly. 
+The following path was selected for mpi: c:\program files\MPICH2\bin\
+mpi library file to be used is c:\nm74g64\mpi\mpi_wing\libfmpich2g.a 

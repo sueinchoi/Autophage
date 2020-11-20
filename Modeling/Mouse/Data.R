@@ -204,3 +204,16 @@ add2 <- liverrow %>%
   arrange(ID, TIME, desc(AMT))
 
 write.csv(add2, "Modeling/Mouse/Plasma_individual2.csv", row.names = F, na = ".")
+
+getwd()
+library(tidyverse)
+mouse <- read_csv('Modeling/Mouse/Plasma_individual2.csv', na = ".")
+
+head(mouse)
+
+mouse %>%
+    filter(MDV == 0, DOSE == 10, ROUTE == 2) %>%
+    ggplot(aes(x = TIME, y = DV)) +
+    geom_point() +
+    scale_y_continuous(trans = 'log10') +
+    facet_wrap(~as.factor(CMT))
