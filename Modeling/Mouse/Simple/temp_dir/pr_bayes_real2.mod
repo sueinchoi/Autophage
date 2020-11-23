@@ -1,5 +1,5 @@
-GFORTRAN module version '6' created from PRGLOBALP.f90 on Fri Nov 20 21:13:39 2020
-MD5:87dccc1b39269dfe81610d4038299d74 -- If you edit this, you'll get what you deserve.
+GFORTRAN module version '6' created from PRGLOBALP.f90 on Mon Nov 23 16:56:47 2020
+MD5:b807caf10eaf648c6e5684dff74cf223 -- If you edit this, you'll get what you deserve.
 
 (() () () () () () () () () () () () () () () () () () () () () () ()
 () () () ())
@@ -25,7 +25,7 @@ IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () (CONSTANT (INTEGER
 4 0 0 INTEGER ()) 0 '30') () 0 () () () 0 0)
 5 'pe' 'prsizes' 'pe' 1 ((PARAMETER UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN
 IMPLICIT-SAVE 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () (CONSTANT (INTEGER
-4 0 0 INTEGER ()) 0 '6') () 0 () () () 0 0)
+4 0 0 INTEGER ()) 0 '7') () 0 () () () 0 0)
 6 'pr_bayes_real2' 'pr_bayes_real2' 'pr_bayes_real2' 1 ((MODULE
 UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN UNKNOWN 0 0) (UNKNOWN 0 0 0 UNKNOWN
 ()) 0 0 () () 0 () () () 0 0)
@@ -40,15 +40,15 @@ CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '200')) 0 () () () 0 0)
 UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
 0 () (4 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '1') (
 CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '30') (CONSTANT (INTEGER 4 0 0
-INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '6') (
+INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '7') (
 CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0
-INTEGER ()) 0 '6') (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '1') (
+INTEGER ()) 0 '7') (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '1') (
 CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '200')) 0 () () () 0 0)
 10 'sdaeta' 'pr_bayes_real2' 'sdaeta' 1 ((VARIABLE UNKNOWN-INTENT
 UNKNOWN-PROC UNKNOWN IMPLICIT-SAVE 0 0 DIMENSION) (REAL 8 0 0 REAL ()) 0
 0 () (3 0 EXPLICIT (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '1') (
 CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '30') (CONSTANT (INTEGER 4 0 0
-INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '6') (
+INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '7') (
 CONSTANT (INTEGER 4 0 0 INTEGER ()) 0 '1') (CONSTANT (INTEGER 4 0 0
 INTEGER ()) 0 '200')) 0 () () () 0 0)
 11 'ststate' 'pr_bayes_real2' 'ststate' 1 ((VARIABLE UNKNOWN-INTENT
