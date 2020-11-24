@@ -160,6 +160,7 @@ dose10_log_iv
 
 p1 <- ggplotly(dose10_iv)
 p2 <- ggplotly(dose10_log_iv)
+p2
 getwd()
 setwd(paste0(getwd(), '/Data_Exploration/Mouse'))
 saveWidget(p1, '10mpk_iv.html', selfcontained = F, libdir = "lib")

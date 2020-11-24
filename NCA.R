@@ -47,7 +47,7 @@ data_NCA <- map(Clean_animal, function(set){
     } else {
      DM <- PO %>% group_by(ID) %>% slice(1) %>% ungroup()
      NCA_indiv <- tblNCA(PO, key = c("ID", "DOSE", "SEX", "MULTIPLE", "ROUTE", "FORMULATION"), colTime = "TIME", colConc = "DV", dose = DM$DOSE, adm = "Extravascular", dur = 0, concUnit = 'ng/mL', doseUnit = "mg", timeUnit = "h", down = "Linear", R2ADJ = 0.1) %>%
-        select(ID, DOSE, SEX, MULTIPLE, ROUTE, FORMULATION, CMAX, AUCLST, TMAX, LAMZHL, CLFO, VZFO)
+        select(ID, DOSE, SEX, MULTIPLE, ROUTE, FORMULATION, CMAX, AUCLST, AUCIFO, TMAX, LAMZHL, CLFO, VZFO)
      NCA_mean <- NCA_indiv %>%
         group_by(DOSE, SEX) %>%
         summarise_at(vars(CMAX : VZFO), mean, na.rm = T) %>%
@@ -81,7 +81,7 @@ data_NCA <- map(Clean_animal, function(set){
       } else {
         DM <- IV %>% group_by(ID) %>% slice(1) %>% ungroup()
         NCA_indiv <- tblNCA(IV, key = c("ID", "DOSE", "SEX", "MULTIPLE", "ROUTE", "FORMULATION"), colTime = "TIME", colConc = "DV", dose = DM$DOSE, adm = "Bolus", dur = 0, concUnit = 'ng/mL', doseUnit = "mg", timeUnit = "h", down = "Linear", R2ADJ = 0.1) %>%
-          select(ID, DOSE, SEX, MULTIPLE, ROUTE, FORMULATION, CMAX, AUCLST, TMAX, LAMZHL, CLO, VZO)
+          select(ID, DOSE, SEX, MULTIPLE, ROUTE, FORMULATION, CMAX, AUCLST, AUCIFO, TMAX, LAMZHL, CLO, VZO)
         NCA_mean <- NCA_indiv %>%
           group_by(DOSE, SEX) %>%
           summarise_at(vars(CMAX : VZO), mean, na.rm = T) %>%
