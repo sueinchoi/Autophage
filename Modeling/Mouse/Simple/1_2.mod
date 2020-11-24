@@ -1,0 +1,62 @@
+$PROB Mouse_liver_2comp
+$INPUT ID TIME AMT DV MDV SKIP ADDL II SPECIES DOSE ROUTE FORMULATION TAD BQL WT LVW CMT RATE
+$DATA  ..//Plasma_individual4_only_zero.csv IGNORE=@ 
+$SUBROUTINE ADVAN3 TRANS4
+
+$PK
+ ;---- PK FIXED EFFECT ----
+ ;Distribution
+ CL = THETA(3)* EXP(ETA(1))
+ V1 = THETA(4)* EXP(ETA(2))
+ V2 = THETA(5)* EXP(ETA(3))
+ Q  = THETA(6)* EXP(ETA(4))
+ F1 = 1
+ ALAG1 = 0
+ 
+ IF(ROUTE.EQ.2) F1 = THETA(7) * EXP(ETA(5))
+ IF(ROUTE.EQ.2) ALAG1 = THETA(9) * EXP(ETA(7))
+ D1 = THETA(8)*EXP(ETA(6))
+ 
+;---- PK PARAMETER RELATIONSHIP ----
+ S1   = V1
+
+ 
+$ERROR
+
+ IPRED  = A(1)/S1
+ W      = SQRT(THETA(1)**2 + THETA(2)**2 * IPRED**2)
+ IRES   = DV - IPRED
+ IWRES  = IRES / W
+ Y      = IPRED + W * EPS(1)
+
+$THETA
+ ; Error model
+ 0.0001 FIX
+ 0.5
+ (0, 200) ; (3) CL (mL/hr)
+ (0, 20)  ; (4) VC (mL)
+ (0, 700)  ; (5) VP (mL)
+ (0, 700)  ; (6) Q (mL/hr)
+ (0, 0.2) ; (7) F1
+ (0, 0.1) ; (8) D1(first)
+ (0, 0.1) ; (9) ALAG1
+ 
+  ;        TH 1      TH 2      TH 3      TH 4      TH 5      TH 6      TH 7      TH 8     
+ 
+;         1.00E-04  1.38E+00  2.58E+02  2.86E+01  7.41E+02  7.04E+02  2.14E-01  1.99E-01
+ 
+$OMEGA
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 0 FIX
+ 
+$SIGMA
+ 1 FIX
+
+$ESTIMATION NOABORT MAXEVAL=9999 METHOD=0 PRINT=10 SIGDIGITS=3
+
+$TABLE ID TIME AMT CMT DV MDV IPRED CWRES IWRES ROUTE DOSE ONEHEADER NOPRINT  FILE = sdtab1_2.txt
