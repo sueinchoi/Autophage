@@ -1,0 +1,4 @@
+TABLE NO.     1: Laplacian Conditional Estimation with Interaction: Problem=1 Subproblem=0 Superproblem1=0 Iteration1=0 Superproblem2=0 Iteration2=0
+ ITERATION    GRD(1)       GRD(2)       GRD(3)       GRD(4)       GRD(5)       GRD(6)       GRD(7)       GRD(8)       GRD(9)       GRD(10)      GRD(11)      GRD(12)      GRD(13)      GRD(14)      GRD(15)
+            0 -3.79473E+03  2.60546E+01  3.25267E+00 -6.00868E+00  7.33124E+01  7.65008E+01  6.15527E+01 -7.74347E+01 -5.62694E+01 -5.32793E+01 -4.72499E+01 -2.31719E+02 -1.07207E+01 -5.96625E+01 -4.54039E+01
+            9 -2.63471E+03 -8.00845E+01 -8.47420E+01 -2.16628E+03 -9.75940E+03  6.65016E+01  3.19561E+02  1.31860E+01 -7.53271E+01 -7.88875E+03 -5.95858E+02 -7.35226E+01 -8.31834E+03 -3.10469E+02 -1.85657E+02

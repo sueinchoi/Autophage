@@ -13,8 +13,8 @@ Autophage
 
 ********** MODEL STATES
 
-d/dt(GUT) = - KA*GUT + INPUT1
-d/dt(CENT) = KA*GUT - K23*CENT + K32*PERI - K20*CENT
+d/dt(GUT) = - KA*GUT + FP*INPUT2
+d/dt(CENT) = KA*GUT - K23*CENT + K32*PERI - K20*CENT + INPUT1
 d/dt(PERI) = K23*CENT - K32*PERI
 
 ********** MODEL PARAMETERS
@@ -23,7 +23,7 @@ Q = 100
 V2 = 10
 V3 = 1000
 CL = 10
-
+FP = 0.2
 ********** MODEL VARIABLES
 K20 = CL/V2
 K23 = Q/V2
