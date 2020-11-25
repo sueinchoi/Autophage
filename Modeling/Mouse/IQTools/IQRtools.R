@@ -44,9 +44,17 @@ plot_IQRsysModel(sim_IQRsysModel(sysModel,
 getPars_IQRsysModel(sysModel, "CL", "Q")
 dataSys <- import_IQRsysData("Plasma_individual4_iqr.csv")
 write.csv(dataSys, "Plasma_individual4_sys.csv")
+library(tidyverse)
+library(zoo)
+data <- read_csv('Plasma_inidividual4_sys.csv', na= ".")
+view(data)
 
+data2 <- data %>%
+  mutate(ROUTE = na.locf(ROUTE)) %>%
+  filter(ROUTE == 'IV')
+write.csv(data2, "Plasma_individual_ivonly_sys.csv", na = ".", row.names = F)
 sysModel <- IQRsysModel("Mouse_simple.cpp",
-                         data = list(datafile = "Plasma_inidividual4_sys.csv"))
+                         data = list(datafile = "Plasma_individual_ivonly_sys.csv"))
 sysModel <- sim_IQRsysModel(sysModel)
 plot_IQRsysModel(sysModel)
 
@@ -62,7 +70,7 @@ est <- as_IQRsysEst(
       CL = 20,
       V2 = 10,
       V3 = 100,
-      Q = 100,
+      Q = 10,
       KA = 0.5,
       FP = 0.2
     ),
@@ -71,8 +79,8 @@ est <- as_IQRsysEst(
       V2 = 1,
       V3 = 1,
       Q = 1,
-      KA = 1,
-      FP = 1
+      KA = 0,
+      FP = 0
     ),
     errorModel = list(
       OUTPUT1 = c(type = "absrel", 0.001, 1.5)
@@ -80,7 +88,7 @@ est <- as_IQRsysEst(
   )
 )
 
-proj <- IQRsysProject(est, "RUN5", opt.nfits = 24, opt.sd = 3)
+proj <- IQRsysProject(est, "RUN_iv2", opt.nfits = 24, opt.sd = 3)
 sysModel <- run_IQRsysProject(proj, ncores = 8)
 plotPars_IQRsysModel(sysModel)
 plotWaterfall_IQRsysModel(sysModel)
