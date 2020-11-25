@@ -5,7 +5,7 @@ model <- IQRsysModel(model = "Mouse_simple.cpp",
 sysModel <- sim_IQRsysModel(model, simtime = 1:24, FLAGoutputsOnly = FALSE)
 plot_IQRsysModel(sysModel)
 pars <- getPars_IQRsysModel(sysModel)
-
+pars
 sysModel <- setPars_IQRsysModel(model, CL = 20)   # Paramter  changes !!
 sysModel <- sim_IQRsysModel(sysModel, 1:24, FLAGoutputsOnly = TRUE)
 plot_IQRsysModel(sysModel)
@@ -49,3 +49,40 @@ sysModel <- IQRsysModel("Mouse_simple.cpp",
                          data = list(datafile = "Plasma_inidividual4_sys.csv"))
 sysModel <- sim_IQRsysModel(sysModel)
 plot_IQRsysModel(sysModel)
+
+sysModel <- setPars_IQRsysModel(sysModel,
+                                error_ADD1 = 0.1)
+sysModel <- sim_IQRsysModel(sysModel, simtime = 1: 24)
+plot(sysModel)
+
+est <- as_IQRsysEst(
+  sysModel,
+  modelSpec = list(
+    POPvalues0= c(
+      CL = 20,
+      V2 = 10,
+      V3 = 100,
+      Q = 100,
+      KA = 0.5,
+      FP = 0.2
+    ),
+    POPestimate= c(
+      CL = 1,
+      V2 = 1,
+      V3 = 1,
+      Q = 1,
+      KA = 1,
+      FP = 1
+    ),
+    errorModel = list(
+      OUTPUT1 = c(type = "absrel", 0.001, 1.5)
+    )
+  )
+)
+
+proj <- IQRsysProject(est, "RUN5", opt.nfits = 24, opt.sd = 3)
+sysModel <- run_IQRsysProject(proj, ncores = 8)
+plotPars_IQRsysModel(sysModel)
+plotWaterfall_IQRsysModel(sysModel)
+plotPred_IQRsysModel(sysModel)
+plotDVPRED_IQRsysModel(sysModel)
