@@ -1,0 +1,1 @@
+C:\Strawberry\perl\bin/execute dual_2_10.mod dual_2_11.mod dual_2_12.mod dual_2_13.mod dual_2_14.mod

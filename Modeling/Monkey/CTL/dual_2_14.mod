@@ -14,6 +14,7 @@ $PK
  TVFA = THETA(9)
  TVD2 = THETA(10)
  TVALAG = THETA(11)
+ 
 ;---- RANDOM EFFECT DEFINITION ----
 
  CL   = TVCL * EXP(ETA(1))
@@ -54,7 +55,7 @@ $ERROR
 
 $THETA
  ; Error
- 10
+ 0.0001 fix
  0.5
  
  ; Distribution
