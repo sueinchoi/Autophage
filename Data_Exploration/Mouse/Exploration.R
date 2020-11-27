@@ -6,17 +6,19 @@ library(htmlwidgets)
 
 
 csv_files <- fs::dir_ls('Modeling/Mouse', regexp = "\\.csv$")
-data <- read_csv(csv_files[length(csv_files)], na= ".")
+csv_files
+data <- read_csv(csv_files[length(csv_files)-4], na= ".")
 
 head(data)
 
 arranged_data <- data %>%
-  filter(DOSE == 50, ROUTE == 2, MDV == 0) %>%
-  group_by(TIME, CMT) %>%
+  filter(MDV == 0) %>%
+  group_by(ROUTE, DOSE, TIME, CMT) %>%
   summarise(mean = mean(DV), sd = sd(DV))
 
 cmt.labs <- c("Liver", "Plasma")
 names(cmt.labs) <- c("2", "3")
+
 dose50 <- data %>%
   filter(DOSE == 50, ROUTE == 2, MDV == 0) %>%
   ggplot() +
@@ -40,7 +42,7 @@ dose50_log <- data %>%
   theme(legend.position = "none") +
   scale_y_continuous(trans = 'log10')
 
-
+dose50
 p1 <- ggplotly(dose50)
 p2 <- ggplotly(dose50_log)
 
