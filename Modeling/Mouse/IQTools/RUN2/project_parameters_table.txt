@@ -1,0 +1,23 @@
+<TT>   Sysfit parameter estimates                                                           
+       =====================================================================================
+
+<TH>   PARAMETER                | VALUE | RSE   | SHRINKAGE | COMMENT                       
+       -------------------------------------------------------------------------------------
+<TR>                            |       |       |           |                               
+<TR>   **Typical parameters**   |       |       |           |                               
+<TR>   KA                       | 124   | 91.9% | -         | -                             
+<TR>   Q                        | 361   | 317%  | -         | -                             
+<TR>   V2                       | 3.07  | 906%  | -         | -                             
+<TR>   V3                       | 22.2  | 228%  | -         | -                             
+<TR>   CL                       | 542   | 142%  | -         | -                             
+<TR>                            |       |       |           |                               
+<TR>   **Residual variability** |       |       |           |                               
+<TR>   error_ADD1               | 430   | 3.81% | 0%        | Additive Error - OUTPUT1 in NA
+<TR>                            |       |       |           |                               
+<TR>   **Model metrics**        |       |       |           |                               
+<TR>   OBJ                      | 5149  |       |           |                               
+<TR>   BIC                      | 5184  |       |           |                               
+<TR>   AIC                      | 5161  |       |           |                               
+<TR>                            |       |       |           |                               
+       -------------------------------------------------------------------------------------
+<TF>    ../IQTools/RUN2, RSE (relative standard error), CI (confidence interval), Significant digits: 3, omega values reported in standard deviations.

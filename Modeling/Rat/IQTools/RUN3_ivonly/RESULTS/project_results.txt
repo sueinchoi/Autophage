@@ -1,0 +1,25 @@
+<TT>   Sysfit parameter estimates                                                            
+       ======================================================================================
+
+<TH>   PARAMETER                | VALUE    | RSE   | SHRINKAGE | COMMENT                     
+       --------------------------------------------------------------------------------------
+<TR>                            |          |       |           |                             
+<TR>   **Typical parameters**   |          |       |           |                             
+<TR>   Q                        | 0.0526   | 50.8% | -         | -                           
+<TR>   V2                       | 0.439    | 34.5% | -         | -                           
+<TR>   V3                       | 0.0864   | 48.9% | -         | -                           
+<TR>   CL                       | 2.53     | 25.5% | -         | -                           
+<TR>   KA                       | 3 (FIX)  | -     | -         | -                           
+<TR>   FP                       | 1 (FIX)  | -     | -         | -                           
+<TR>                            |          |       |           |                             
+<TR>   **Residual variability** |          |       |           |                             
+<TR>   error_ADD1               | 0.000998 | 1000% | -3%       | Additive Error - OUTPUT1    
+<TR>   error_PROP1              | 0.592    | 21.5% | -3%       | Proportional Error - OUTPUT1
+<TR>                            |          |       |           |                             
+<TR>   **Model metrics**        |          |       |           |                             
+<TR>   OBJ                      | 204      |       |           |                             
+<TR>   BIC                      | 222      |       |           |                             
+<TR>   AIC                      | 216      |       |           |                             
+<TR>                            |          |       |           |                             
+       --------------------------------------------------------------------------------------
+<TF>    ../IQTools/RUN3_ivonly, RSE (relative standard error), CI (confidence interval), Significant digits: 3, omega values reported in standard deviations.

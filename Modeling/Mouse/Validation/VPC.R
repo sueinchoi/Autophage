@@ -14,6 +14,7 @@ mod %>%
     ev(amt = 10*28*0.214*1000, cmt = 1) %>%
     mrgsim(end = 24) %>%
     plot()
+<<<<<<< HEAD
 
 new <- 
 
@@ -111,3 +112,12 @@ capture CP = CENT/VCi*(1 + PROP) + ADD;
 
 $CAPTURE CP;'
 }}}
+=======
+a <- c(229.5/15.2, 369/15.1, 105.9/1.78, 79.8/2.06)
+ifelse(5 %in% c(4, 5), 1:2, 1)
+mean(a)
+16801.28/mean(a)
+10*28*1000
+code <- '
+'
+>>>>>>> f2bd23003200de0f562dca0839c47ae7fe368733

@@ -1,0 +1,7 @@
+dual4.mod                               NM_run1
+dual4_1.mod                             NM_run2
+dual4_2.mod                             NM_run3
+dual4_3.mod                             NM_run4
+dual_1.mod                              NM_run5
+dual_2.mod                              NM_run6
+dual_2_1.mod                            NM_run7

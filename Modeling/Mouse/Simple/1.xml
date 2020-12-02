@@ -5,7 +5,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://namespaces.oreilly.com/xmlnut/address output.xsd"
 xmlns:nm="http://namespaces.oreilly.com/xmlnut/address"
 >
-<nm:start_datetime>2020-11-20T18:42:51.020</nm:start_datetime>
+<nm:start_datetime>2020-11-25T17:06:44.518</nm:start_datetime>
 <nm:control_stream><![CDATA[
 $PROB Mouse_liver_2comp
 $INPUT ID TIME AMT DV MDV SKIP ADDL II SPECIES DOSE ROUTE FORMULATION TAD BQL WT LVW CMT SKIP
@@ -40,9 +40,9 @@ $THETA
  0.0001 FIX
  0.5
  (0, 10) ; (3) CL (mL/hr)
- (0, 100)  ; (4) VC (mL)
+ (0, 10)  ; (4) VC (mL)
  (0, 1000)  ; (5) VP (mL)
- (0, 50)  ; (6) Q (mL/hr)
+ (0, 500)  ; (6) Q (mL/hr)
  (0, 0.5) ; (7) F1
  (0, 1) ; (8) KA(first)
 
@@ -72,8 +72,8 @@ $TABLE ID TIME AMT CMT DV MDV IPRED CWRES IWRES ROUTE ONEHEADER NOPRINT  FILE = 
 <nm:license_information><![CDATA[
 License Registered to: Qfitter Inc
 Expiration Date:    14 MAY 2021
-Current Date:       20 NOV 2020
-Days until program expires : 179
+Current Date:       25 NOV 2020
+Days until program expires : 174
 ]]></nm:license_information>
 <nm:program_information><![CDATA[
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.1
@@ -118,9 +118,9 @@ Days until program expires : 179
   0.1000E-03     0.1000E-03     0.1000E-03
  -0.1000E+07     0.5000E+00     0.1000E+07
   0.0000E+00     0.1000E+02     0.1000E+07
-  0.0000E+00     0.1000E+03     0.1000E+07
+  0.0000E+00     0.1000E+02     0.1000E+07
   0.0000E+00     0.1000E+04     0.1000E+07
-  0.0000E+00     0.5000E+02     0.1000E+07
+  0.0000E+00     0.5000E+03     0.1000E+07
   0.0000E+00     0.5000E+00     0.1000E+07
   0.0000E+00     0.1000E+01     0.1000E+07
 0INITIAL ESTIMATE OF OMEGA:
@@ -260,34 +260,35 @@ Days until program expires : 179
  nm:ctype='0'
 />
 <nm:monitor>
-<nm:obj nm:iteration='0'>461.66280133992063</nm:obj>
-<nm:obj nm:iteration='10'>-732.05703929750280</nm:obj>
-<nm:obj nm:iteration='20'>-789.62118945302063</nm:obj>
-<nm:obj nm:iteration='30'>-790.89760879263986</nm:obj>
+<nm:obj nm:iteration='0'>274.19179424768009</nm:obj>
+<nm:obj nm:iteration='10'>-655.79883521904276</nm:obj>
+<nm:obj nm:iteration='20'>-790.76304815179844</nm:obj>
+<nm:obj nm:iteration='30'>-790.86439439376591</nm:obj>
+<nm:obj nm:iteration='35'>-790.89760971265935</nm:obj>
 </nm:monitor>
 <nm:termination_status>0</nm:termination_status>
-<nm:termination_nfuncevals>303</nm:termination_nfuncevals>
-<nm:termination_sigdigits>3.4666366202092207</nm:termination_sigdigits>
+<nm:termination_nfuncevals>359</nm:termination_nfuncevals>
+<nm:termination_sigdigits>3.4308010090858172</nm:termination_sigdigits>
 <nm:termination_information><![CDATA[
 0MINIMIZATION SUCCESSFUL
- NO. OF FUNCTION EVALUATIONS USED:      303
- NO. OF SIG. DIGITS IN FINAL EST.:  3.5
+ NO. OF FUNCTION EVALUATIONS USED:      359
+ NO. OF SIG. DIGITS IN FINAL EST.:  3.4
 ]]></nm:termination_information>
 <nm:termination_txtmsg>
 <nm:val nm:name='1'>37</nm:val>
 </nm:termination_txtmsg>
-<nm:estimation_elapsed_time>0.30</nm:estimation_elapsed_time>
+<nm:estimation_elapsed_time>0.34</nm:estimation_elapsed_time>
 <nm:final_objective_function_text>MINIMUM VALUE OF OBJECTIVE FUNCTION</nm:final_objective_function_text>
-<nm:final_objective_function>-790.89760879263986</nm:final_objective_function>
+<nm:final_objective_function>-790.89760971265935</nm:final_objective_function>
 <nm:theta>
 <nm:val nm:name='1'>1.00000000000000005E-004</nm:val>
-<nm:val nm:name='2'>1.3846940041806863</nm:val>
-<nm:val nm:name='3'>257.87257956628929</nm:val>
-<nm:val nm:name='4'>28.635226023902018</nm:val>
-<nm:val nm:name='5'>741.29474033035513</nm:val>
-<nm:val nm:name='6'>703.69067669747096</nm:val>
-<nm:val nm:name='7'>0.21350366203237622</nm:val>
-<nm:val nm:name='8'>0.19905928287339836</nm:val>
+<nm:val nm:name='2'>-1.3849812878607324</nm:val>
+<nm:val nm:name='3'>257.91669280580442</nm:val>
+<nm:val nm:name='4'>28.632013616035849</nm:val>
+<nm:val nm:name='5'>741.41903713891509</nm:val>
+<nm:val nm:name='6'>703.56158642149705</nm:val>
+<nm:val nm:name='7'>0.21353964238848297</nm:val>
+<nm:val nm:name='8'>0.19903287099746417</nm:val>
 </nm:theta>
 <nm:omega>
 <nm:row nm:rname='1'>
@@ -371,11 +372,11 @@ Days until program expires : 179
 </nm:sigmac>
 </nm:estimation>
 <nm:post_process_times>
-<nm:post_elapsed_time>0.02</nm:post_elapsed_time>
-<nm:finaloutput_elapsed_time>0.08</nm:finaloutput_elapsed_time>
+<nm:post_elapsed_time>0.01</nm:post_elapsed_time>
+<nm:finaloutput_elapsed_time>0.11</nm:finaloutput_elapsed_time>
 </nm:post_process_times>
 </nm:problem>
 </nm:nonmem>
-<nm:stop_datetime>2020-11-20T18:42:51.553</nm:stop_datetime>
-<nm:total_cputime>0.500</nm:total_cputime>
+<nm:stop_datetime>2020-11-25T17:06:45.155</nm:stop_datetime>
+<nm:total_cputime>0.578</nm:total_cputime>
 </nm:output>
