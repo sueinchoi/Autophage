@@ -1,15 +1,8 @@
-<?xml version="1.0" encoding="ASCII"?>
-<!DOCTYPE nm:output SYSTEM "output.dtd">
-<nm:output
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://namespaces.oreilly.com/xmlnut/address output.xsd"
-xmlns:nm="http://namespaces.oreilly.com/xmlnut/address"
->
-<nm:start_datetime>2020-12-02T14:18:32.163</nm:start_datetime>
-<nm:control_stream><![CDATA[
+2020-12-02 
+오후 02:18
 $PROB Mouse_liver_2comp
 $INPUT ID TIME AMT DV MDV SKIP ADDL II SPECIES DOSE ROUTE FORMULATION TAD BQL WT LVW CMT RATE
-$DATA  ..//Plasma_individual4_only.csv IGNORE=@
+$DATA  ..//Plasma_individual4_only.csv IGNORE=@ 
 $SUBROUTINE ADVAN4 TRANS4
 
 $PK
@@ -22,11 +15,11 @@ $PK
 
  F1 = THETA(7)*EXP(ETA(5))
  KA = THETA(8)*EXP(ETA(6))
-
+ 
 ;---- PK PARAMETER RELATIONSHIP ----
  S2   = V2
 
-
+ 
 $ERROR
 
  IPRED  = A(2)/S2
@@ -46,7 +39,7 @@ $THETA
  (0, 0.5) ; (7) F1
  (0, 1) ; (8) KA(first)
 
-
+ 
 $OMEGA
  0 FIX
  0 FIX
@@ -54,37 +47,29 @@ $OMEGA
  0 FIX
  0 FIX
  0 FIX
-
+ 
 $SIGMA
  1 FIX
 
 $ESTIMATION NOABORT MAXEVAL=9999 METHOD=0 PRINT=10 SIGDIGITS=3
 
 $TABLE ID TIME AMT CMT DV MDV IPRED CWRES IWRES ROUTE DOSE ONEHEADER NOPRINT  FILE = sdtab1_1.txt
-]]></nm:control_stream>
-<nm:nmtran><![CDATA[
-
+  
+NM-TRAN MESSAGES 
+  
  WARNINGS AND ERRORS (IF ANY) FOR PROBLEM    1
-
+             
  (WARNING  2) NM-TRAN INFERS THAT THE DATA ARE POPULATION.
-]]></nm:nmtran>
-<nm:nonmem nm:version='7.4.1'>
-<nm:license_information><![CDATA[
+  
 License Registered to: Qfitter Inc
 Expiration Date:    14 MAY 2021
 Current Date:        2 DEC 2020
 Days until program expires : 167
-]]></nm:license_information>
-<nm:program_information><![CDATA[
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
  AND ALISON BOECKMANN. IMPLEMENTATION, EFFICIENCY, AND STANDARDIZATION
  PERFORMED BY NOUS INFOSYSTEMS.
-]]></nm:program_information>
-<nm:problem nm:number='1' nm:subproblem='0' nm:superproblem1='0' nm:iteration1='0' nm:superproblem2='0' nm:iteration2='0'>
-<nm:problem_title>Mouse_liver_2comp</nm:problem_title>
-<nm:problem_information><![CDATA[
 
  PROBLEM NO.:         1
  Mouse_liver_2comp
@@ -195,23 +180,12 @@ Days until program expires : 167
  PK SUBROUTINE NOT CALLED AT NONEVENT (ADDITIONAL OR LAGGED) DOSE TIMES.
 0ERROR SUBROUTINE CALLED WITH EVERY EVENT RECORD.
 0ERROR SUBROUTINE INDICATES THAT DERIVATIVES OF COMPARTMENT AMOUNTS ARE USED.
-]]></nm:problem_information>
-<nm:problem_options
- nm:data_checkout_run='no' nm:data_unit='2' nm:data_rewind='no' nm:data_nrec='549' nm:data_nitems='18' nm:data_id='1'
- nm:data_l2='0' nm:data_dv='4' nm:data_mdv='5' nm:data_mrg='0' nm:data_raw='0' nm:data_rpt='0' nm:data_sub_array1='0'
- nm:data_sub_array2='0' nm:data_sub_array3='0' nm:data_pred_indices='18,2,3,17,0,7,16,0,0,0,6'
- nm:data_format='(e4.0,e6.0,e9.0,e8.0,4e2.0,e3.0,2e2.0,e6.0,e2.0,e6.0,e7.0,2e2.0,1f2.0)'
- nm:data_nobs='344' nm:data_nind='204' nm:data_mdv100='0' nm:nthetat='8' nm:theta_bound_test_omitted='no'
- nm:omega_diagdim='6' nm:omega_bound_test_omitted='no' nm:sigma_diagdim='1' nm:sigma_bound_test_omitted='no'
- nm:tab_omitted='no' nm:tab_number='1' nm:tab_seed='11456' nm:tab_ranmethod='3u' nm:tab_esample='300'
- nm:tab_wres='eigenvalue' nm:tab_fixedetas_01='BLANK' nm:pred_advan='4' nm:pred_evid='18' nm:pred_time='2'
- nm:pred_amt='3' nm:pred_rate='17' nm:pred_ii='7' nm:pred_addl='6' nm:pred_cmt='16'
-/>
-<nm:estimation nm:number='1' nm:type='0'>
-<nm:table_series>1</nm:table_series>
-<nm:estimation_method>fo</nm:estimation_method>
-<nm:estimation_title>First Order</nm:estimation_title>
-<nm:estimation_information><![CDATA[
+1
+
+
+ #TBLN:      1
+ #METH: First Order
+
  ESTIMATION STEP OMITTED:                 NO
  ANALYSIS TYPE:                           POPULATION
  NUMBER OF SADDLE POINT RESET ITERATIONS:      0
@@ -251,132 +225,182 @@ Days until program expires : 167
  ADDITIONAL CONVERGENCE TEST (CTYPE=4)?:    NO
  EM OR BAYESIAN METHOD USED:                 NONE
 
-]]></nm:estimation_information>
-<nm:estimation_options
- nm:estim_omitted='no' nm:analysis_type='pop' nm:saddle_reset='0' nm:saddle_hess='0' nm:slow_gradient='noslow'
- nm:epseta_interaction='no' nm:predflag='0' nm:maxfn='9999' nm:nsig='3' nm:msfo='no' nm:abort='no' nm:objsort='no'
- nm:numder='0' nm:optmap='0' nm:etader='0' nm:mceta='0' nm:siglo='100' nm:sigl='100' nm:noprior='0' nm:nocov='0' nm:dercont='0'
- nm:atol='0' nm:fnleta='1' nm:etastype='0' nm:noninfeta='0' nm:file='1_1.ext' nm:notitle='0' nm:nolabel='0'
- nm:format='s1pe12.5' nm:order='tsol' nm:wishtype='0' nm:knuthsumoff='0' nm:lntwopi='0' nm:priorc='0' nm:olntwopi='0'
- nm:ctype='0'
-/>
-<nm:monitor>
-<nm:obj nm:iteration='0'>461.66280133992063</nm:obj>
-<nm:obj nm:iteration='10'>-732.05703929750280</nm:obj>
-<nm:obj nm:iteration='20'>-789.62118945302063</nm:obj>
-<nm:obj nm:iteration='30'>-790.89760879263986</nm:obj>
-</nm:monitor>
-<nm:termination_status>0</nm:termination_status>
-<nm:termination_nfuncevals>303</nm:termination_nfuncevals>
-<nm:termination_sigdigits>3.4666366202092207</nm:termination_sigdigits>
-<nm:termination_information><![CDATA[
+
+ THE FOLLOWING LABELS ARE EQUIVALENT
+ PRED=NPRED
+ RES=NRES
+ WRES=NWRES
+ IWRS=NIWRES
+ IPRD=NIPRED
+ IRS=NIRES
+
+ MONITORING OF SEARCH:
+
+
+0ITERATION NO.:    0    OBJECTIVE VALUE:   461.662801339921        NO. OF FUNC. EVALS.:   8
+ CUMULATIVE NO. OF FUNC. EVALS.:        8
+ NPARAMETR:  5.0000E-01  1.0000E+01  1.0000E+02  1.0000E+03  5.0000E+01  5.0000E-01  1.0000E+00
+ PARAMETER:  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01
+ GRADIENT:  -1.1271E+04 -9.2111E+01  8.8027E+01 -1.3676E+02 -1.1439E+02  3.2445E+02  6.6012E+01
+
+0ITERATION NO.:   10    OBJECTIVE VALUE:  -732.057039297503        NO. OF FUNC. EVALS.:  98
+ CUMULATIVE NO. OF FUNC. EVALS.:      106
+ NPARAMETR:  1.9109E+00  2.5623E+02  7.4638E+01  1.5402E+03  1.2362E+03  1.6671E-01  3.6021E-01
+ PARAMETER:  3.8218E-01  3.3435E+00 -1.9252E-01  5.3189E-01  3.3078E+00 -9.9835E-01 -9.2107E-01
+ GRADIENT:   6.8326E+01 -7.4217E+01  9.0453E+00  7.6265E+01 -8.5372E+00  1.6472E+01  7.7215E+00
+
+0ITERATION NO.:   20    OBJECTIVE VALUE:  -789.621189453021        NO. OF FUNC. EVALS.:  94
+ CUMULATIVE NO. OF FUNC. EVALS.:      200
+ NPARAMETR:  1.4179E+00  2.4602E+02  2.2922E+01  6.7244E+02  5.5591E+02  1.9348E-01  1.8983E-01
+ PARAMETER:  2.8358E-01  3.3028E+00 -1.3731E+00 -2.9685E-01  2.5086E+00 -8.4946E-01 -1.5616E+00
+ GRADIENT:   1.7631E+01  8.6183E+00  3.0442E+00 -9.2819E-01 -1.2019E+01 -5.2151E+00  7.7139E+00
+
+0ITERATION NO.:   30    OBJECTIVE VALUE:  -790.897608792640        NO. OF FUNC. EVALS.: 103
+ CUMULATIVE NO. OF FUNC. EVALS.:      303
+ NPARAMETR:  1.3847E+00  2.5787E+02  2.8635E+01  7.4129E+02  7.0369E+02  2.1350E-01  1.9906E-01
+ PARAMETER:  2.7694E-01  3.3499E+00 -1.1505E+00 -1.9936E-01  2.7443E+00 -7.5095E-01 -1.5142E+00
+ GRADIENT:  -9.8693E-02  8.1395E-02  4.3543E-03 -1.1600E-01  6.9596E-02 -4.8303E-02 -6.1772E-02
+
+ #TERM:
 0MINIMIZATION SUCCESSFUL
  NO. OF FUNCTION EVALUATIONS USED:      303
  NO. OF SIG. DIGITS IN FINAL EST.:  3.5
-]]></nm:termination_information>
-<nm:termination_txtmsg>
-<nm:val nm:name='1'>37</nm:val>
-</nm:termination_txtmsg>
-<nm:estimation_elapsed_time>0.29</nm:estimation_elapsed_time>
-<nm:final_objective_function_text>MINIMUM VALUE OF OBJECTIVE FUNCTION</nm:final_objective_function_text>
-<nm:final_objective_function>-790.89760879263986</nm:final_objective_function>
-<nm:theta>
-<nm:val nm:name='1'>1.00000000000000005E-004</nm:val>
-<nm:val nm:name='2'>1.3846940041806863</nm:val>
-<nm:val nm:name='3'>257.87257956628929</nm:val>
-<nm:val nm:name='4'>28.635226023902018</nm:val>
-<nm:val nm:name='5'>741.29474033035513</nm:val>
-<nm:val nm:name='6'>703.69067669747096</nm:val>
-<nm:val nm:name='7'>0.21350366203237622</nm:val>
-<nm:val nm:name='8'>0.19905928287339836</nm:val>
-</nm:theta>
-<nm:omega>
-<nm:row nm:rname='1'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='2'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='3'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='4'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='5'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='5'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='6'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='5'>0.0000000000000000</nm:col>
-<nm:col nm:cname='6'>0.0000000000000000</nm:col>
-</nm:row>
-</nm:omega>
-<nm:sigma>
-<nm:row nm:rname='1'>
-<nm:col nm:cname='1'>1.0000000000000000</nm:col>
-</nm:row>
-</nm:sigma>
-<nm:omegac>
-<nm:row nm:rname='1'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='2'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='3'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='4'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='5'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='5'>0.0000000000000000</nm:col>
-</nm:row>
-<nm:row nm:rname='6'>
-<nm:col nm:cname='1'>0.0000000000000000</nm:col>
-<nm:col nm:cname='2'>0.0000000000000000</nm:col>
-<nm:col nm:cname='3'>0.0000000000000000</nm:col>
-<nm:col nm:cname='4'>0.0000000000000000</nm:col>
-<nm:col nm:cname='5'>0.0000000000000000</nm:col>
-<nm:col nm:cname='6'>0.0000000000000000</nm:col>
-</nm:row>
-</nm:omegac>
-<nm:sigmac>
-<nm:row nm:rname='1'>
-<nm:col nm:cname='1'>1.0000000000000000</nm:col>
-</nm:row>
-</nm:sigmac>
-</nm:estimation>
-<nm:post_process_times>
-<nm:post_elapsed_time>0.02</nm:post_elapsed_time>
-<nm:finaloutput_elapsed_time>0.15</nm:finaloutput_elapsed_time>
-</nm:post_process_times>
-</nm:problem>
-</nm:nonmem>
-<nm:stop_datetime>2020-12-02T14:18:32.801</nm:stop_datetime>
-<nm:total_cputime>0.516</nm:total_cputime>
-</nm:output>
+  
+ TOTAL DATA POINTS NORMALLY DISTRIBUTED (N):          344
+ N*LOG(2PI) CONSTANT TO OBJECTIVE FUNCTION:    632.22971084481480     
+ OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:   -790.89760879263986     
+ OBJECTIVE FUNCTION VALUE WITH CONSTANT:      -158.66789794782505     
+ REPORTED OBJECTIVE FUNCTION DOES NOT CONTAIN CONSTANT
+  
+ TOTAL EFFECTIVE ETAS (NIND*NETA):                             0
+  
+ #TERE:
+ Elapsed estimation  time in seconds:     0.29
+ Elapsed postprocess time in seconds:     0.02
+1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                                   FIRST ORDER                                  ********************
+ #OBJT:**************                       MINIMUM VALUE OF OBJECTIVE FUNCTION                      ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+
+
+
+ #OBJV:********************************************     -790.898       **************************************************
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                                   FIRST ORDER                                  ********************
+ ********************                             FINAL PARAMETER ESTIMATE                           ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
+
+
+         TH 1      TH 2      TH 3      TH 4      TH 5      TH 6      TH 7      TH 8     
+ 
+         1.00E-04  1.38E+00  2.58E+02  2.86E+01  7.41E+02  7.04E+02  2.14E-01  1.99E-01
+ 
+
+
+ OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
+
+
+         ETA1      ETA2      ETA3      ETA4      ETA5      ETA6     
+ 
+ ETA1
++        0.00E+00
+ 
+ ETA2
++        0.00E+00  0.00E+00
+ 
+ ETA3
++        0.00E+00  0.00E+00  0.00E+00
+ 
+ ETA4
++        0.00E+00  0.00E+00  0.00E+00  0.00E+00
+ 
+ ETA5
++        0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00
+ 
+ ETA6
++        0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00
+ 
+
+
+ SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS  ****
+
+
+         EPS1     
+ 
+ EPS1
++        1.00E+00
+ 
+1
+
+
+ OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
+
+
+         ETA1      ETA2      ETA3      ETA4      ETA5      ETA6     
+ 
+ ETA1
++        0.00E+00
+ 
+ ETA2
++        0.00E+00  0.00E+00
+ 
+ ETA3
++        0.00E+00  0.00E+00  0.00E+00
+ 
+ ETA4
++        0.00E+00  0.00E+00  0.00E+00  0.00E+00
+ 
+ ETA5
++        0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00
+ 
+ ETA6
++        0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00  0.00E+00
+ 
+
+
+ SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
+
+
+         EPS1     
+ 
+ EPS1
++        1.00E+00
+ 
+ Elapsed finaloutput time in seconds:     0.15
+ #CPUT: Total CPU Time in Seconds,        0.516
+Stop Time: 
+2020-12-02 
+오후 02:18

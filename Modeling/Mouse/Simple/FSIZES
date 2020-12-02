@@ -26,7 +26,7 @@ MAXRECID       0
 PC             0              
 PCT            1              
 PIR            1              
-PD             17             
+PD             18             
 PAL            0              
 MAXFCN         0              
 MAXIC          0              
@@ -39,7 +39,7 @@ ISAMPLEMAX     0
 DIMTMP         0              
 DIMCNS         0              
 DIMNEW         0              
-PDT            10             
+PDT            11             
 LADD_MAX       0              
 MAXSIDL        0              
 NTT            8              
