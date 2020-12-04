@@ -1,7 +1,14 @@
+<<<<<<< HEAD
+LTH            6              
+LVR            5              
+LVR2           0              
+LPAR           17             
+=======
 LTH            8              
 LVR            7              
 LVR2           0              
 LPAR           30             
+>>>>>>> f2bd23003200de0f562dca0839c47ae7fe368733
 LPAR3          0              
 NO             0              
 MMX            1              
@@ -22,18 +29,23 @@ LIM11          0
 LIM13          0              
 LIM15          0              
 LIM16          0              
-MAXRECID       0              
-PC             0              
-PCT            1              
-PIR            1              
-PD             18             
-PAL            0              
-MAXFCN         0              
-MAXIC          0              
-PG             0              
+MAXRECID       200            
+PC             30             
+PCT            30             
+PIR            700            
+PD             50             
+PAL            50             
+MAXFCN         1000000        
+MAXIC          90             
+PG             80             
 NPOPMIXMAX     0              
+<<<<<<< HEAD
+MAXOMEG        4              
+MAXPTHETA      7              
+=======
 MAXOMEG        6              
 MAXPTHETA      9              
+>>>>>>> f2bd23003200de0f562dca0839c47ae7fe368733
 MAXITER        20             
 ISAMPLEMAX     0              
 DIMTMP         0              
@@ -42,7 +54,12 @@ DIMNEW         0
 PDT            11             
 LADD_MAX       0              
 MAXSIDL        0              
+<<<<<<< HEAD
+NTT            6              
+NOMEG          4              
+=======
 NTT            8              
 NOMEG          6              
+>>>>>>> f2bd23003200de0f562dca0839c47ae7fe368733
 NSIGM          1              
 PPDT           2              

@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+/Users/sueinchoi/nm743/pr/PRED.o
+/Users/sueinchoi/nm743/pr/PREDI.o
+/Users/sueinchoi/nm743/pr/CHECK.o
+/Users/sueinchoi/nm743/pr/SADVAN.o
+/Users/sueinchoi/nm743/pr/ADVAN3.o
+/Users/sueinchoi/nm743/pr/SSS0.o
+/Users/sueinchoi/nm743/pr/TRANS4.o
+/Users/sueinchoi/nm743/pr/INFN.o
+=======
 "temp_dir"\PRED.o
 "temp_dir"\PREDI.o
 "temp_dir"\CHECK.o
@@ -6,3 +16,4 @@
 "temp_dir"\SSS0.o
 "temp_dir"\TRANS4.o
 "temp_dir"\INFN.o
+>>>>>>> f2bd23003200de0f562dca0839c47ae7fe368733
